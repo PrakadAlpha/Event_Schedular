@@ -1,0 +1,27 @@
+<div>
+  <h2>Add Events</h2>
+  <form (ngSubmit)="onSubmit()">
+    <label for="appName">App Name</label>
+    <select name="appName" [(ngModel)]="event.appName">
+      <option value="Webcash">Webcash</option>
+      <option value="PGP">PGP</option>
+      <option value="Em">Em</option>
+    </select>
+    <label for="environment">App Environment</label>
+    <select name="environment" [(ngModel)]="event.environment">
+      <option value="Prod">Prod</option>
+      <option value="Dev">Dev</option>
+      <option value="QA">QA</option>
+    </select>
+    <label for="eventType">Event Name</label>
+    <select name="eventName" [(ngModel)]="event.eventName">
+      <option value="Deploy">Deploy</option>
+      <option value="Stable Changes">Stable Changes</option>
+      <option value="Pipeline">Pipeline</option>
+    </select>
+    <label for="eventDetails">Event Details</label>
+    <textarea name="eventDetails" id="" cols="30" rows="10" [(ngModel)]="event.eventDetails"></textarea>
+    <input type="date" name="date" [(ngModel)]="event.date">
+    <button type="submit">Submit</button>
+  </form>
+</div>

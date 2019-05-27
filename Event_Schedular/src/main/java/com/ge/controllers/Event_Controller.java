@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ge.bean.Event;
 import com.ge.service.Event_Service_I;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@CrossOrigin
 @RequestMapping("/api")
 public class Event_Controller {
 

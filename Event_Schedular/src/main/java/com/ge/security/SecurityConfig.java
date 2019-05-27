@@ -12,8 +12,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().passwordEncoder(org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance()).withUser("user1").password("user1")
-		.roles("USER").and().withUser("admin1").password("admin1")
+		auth.inMemoryAuthentication()
+		.withUser("user1").password("{noop}user1")
+		.roles("USER").and()
+		.withUser("admin1").password("{noop}admin1")
 		.roles("USER", "ADMIN");
 	}
 
@@ -22,9 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.httpBasic().and().authorizeRequests()
 		.antMatchers("/api/events/**").hasRole("USER")
 		.antMatchers("/**").hasRole("ADMIN").and()
+		.cors().and()
 		.csrf().disable().headers().frameOptions().disable();
 	}
-
-	
 	
 }

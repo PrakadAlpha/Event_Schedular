@@ -1,3 +1,7 @@
-<p>
-  index works!
-</p>
+ <div>
+<ul>
+  <li><a *ngIf="loginService.isUserLoggedIn()" routerLink="/events">Events</a></li>
+  <li><a *ngIf="!loginService.isUserLoggedIn()" routerLink="/login">Login</a></li>
+  <li><a *ngIf="loginService.isUserLoggedIn()" routerLink="/logout">LogOut</a></li>
+</ul>
+</div>

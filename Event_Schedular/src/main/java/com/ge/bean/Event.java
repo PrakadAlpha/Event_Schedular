@@ -20,6 +20,9 @@ public class Event {
 	private String AppName;
 	
 	@Column
+	private String Environment;
+	
+	@Column
 	private String Date;
 	
 	@Column
@@ -33,15 +36,26 @@ public class Event {
 		super();
 	}
 	
-	public Event(Integer id, String appName, String date, String eventName, String eventDetails) {
+	public Event(Integer id, String appName, String date, String eventName, String eventDetails, String environment) {
 		super();
 		Id = id;
 		AppName = appName;
+		Environment = environment;
 		Date = date;
 		EventName = eventName;
 		EventDetails = eventDetails;
 	}
 	
+	
+	
+	public String getEnvironment() {
+		return Environment;
+	}
+
+	public void setEnvironment(String environment) {
+		Environment = environment;
+	}
+
 	public Integer getId() {
 		return Id;
 	}
