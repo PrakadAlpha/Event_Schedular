@@ -44,4 +44,9 @@ public class Event_Service_Impl implements Event_Service_I{
 		return repo.save(event);
 	}
 	
+	@Override
+	public void Delete(Integer id) {
+		 repo.deleteById(id);
+	}
+	
 }
