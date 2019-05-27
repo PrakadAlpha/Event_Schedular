@@ -48,4 +48,15 @@ public class Event_Controller {
 		Event newEvent = service.Update(event);		
 		return newEvent;
 	}
+	
+	@DeleteMapping("/events/{id}")
+	public void Delete(@PathVariable Integer id) {
+		
+		if(service.GetById(id) != null) {
+			 service.Delete(id);		
+			 }else {
+				
+			 }
+		
+	}
 }
