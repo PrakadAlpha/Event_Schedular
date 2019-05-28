@@ -1,5 +1,7 @@
 package com.ge.bean;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,7 +25,7 @@ public class Event {
 	private String Environment;
 	
 	@Column
-	private String Date;
+	private Date Date;
 	
 	@Column
 	private String EventName;
@@ -36,7 +38,7 @@ public class Event {
 		super();
 	}
 	
-	public Event(Integer id, String appName, String date, String eventName, String eventDetails, String environment) {
+	public Event(Integer id, String appName, Date date, String eventName, String eventDetails, String environment) {
 		super();
 		Id = id;
 		AppName = appName;
@@ -68,10 +70,10 @@ public class Event {
 	public void setAppName(String appName) {
 		AppName = appName;
 	}
-	public String getDate() {
+	public Date getDate() {
 		return Date;
 	}
-	public void setDate(String date) {
+	public void setDate(Date date) {
 		Date = date;
 	}
 	public String getEventName() {

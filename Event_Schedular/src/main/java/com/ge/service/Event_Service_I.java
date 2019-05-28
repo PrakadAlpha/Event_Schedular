@@ -14,4 +14,6 @@ public interface Event_Service_I {
 
 	Event Update(Event event);
 
+	void Delete(Integer id);
+
 }
