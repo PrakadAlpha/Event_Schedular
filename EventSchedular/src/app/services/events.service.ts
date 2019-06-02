@@ -12,9 +12,13 @@ export class EventsService {
   constructor(private http: HttpClient) { }
 
 
+  //Getting Event By Id
+
   getEventId(id: number): Observable<Object>{
     return this.http.get(`${this.baseUrl}/events/{id}`);
   }
+
+  // Adding an Event
 
   addEvent(event: Object): Observable<Object>{
 

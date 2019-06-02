@@ -7,6 +7,8 @@ export class AuthenticationService {
 
   constructor() { }
 
+
+  //Check and set the username to session
   authenticate(username, password){
     if(username == 'user1' && password == 'user1'){
       sessionStorage.setItem('username', username);
@@ -16,17 +18,16 @@ export class AuthenticationService {
     }
   }
 
+  //If user is there or not
   isUserLoggedIn(){
     let user = sessionStorage.getItem('username');
     console.log(!(user === null));
-    return !(user === null);
+    return !(user === null); //returns true if user is there
   }
 
+  //Remove user from session
   logout(){
     sessionStorage.removeItem('username');
   }
-
-  
-
 
 }
