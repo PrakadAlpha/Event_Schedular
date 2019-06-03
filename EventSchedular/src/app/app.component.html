@@ -1,7 +1,15 @@
 <header>
   <h1>Event Schedular Application</h1>
 </header>
-<mat-toolbar class="toolbar">Events</mat-toolbar>
+<mat-toolbar class="toolbar" color="primary">
+ <a mat-button routerLink="/index">Dashboard</a>
+ <span class="fill"></span>
+ <div>
+  <a mat-button *ngIf="loginService.isUserLoggedIn()" routerLink="/events">Manage Events</a>
+  <a mat-button *ngIf="loginService.isUserLoggedIn()" routerLink="/logout">Logout</a>
+  <a mat-button *ngIf="!loginService.isUserLoggedIn()" routerLink="/login">Login</a>
+ </div>
+</mat-toolbar>
 <div class="container">
 <router-outlet></router-outlet>
 </div>
