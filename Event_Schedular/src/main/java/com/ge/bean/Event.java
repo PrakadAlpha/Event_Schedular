@@ -25,10 +25,16 @@ public class Event {
 	private String Environment;
 	
 	@Column
-	private Date Date;
+	private Date startDate;
+	
+	@Column
+	private Date endDate;
 	
 	@Column
 	private String EventName;
+	
+	@Column
+	private String EventType;
 	
 	@Column
 	private String EventDetails;
@@ -38,18 +44,48 @@ public class Event {
 		super();
 	}
 	
-	public Event(Integer id, String appName, Date date, String eventName, String eventDetails, String environment) {
+	
+	public Event(Integer id, String appName, String environment, Date startDate, Date endDate, String eventName,
+			String eventType, String eventDetails) {
 		super();
 		Id = id;
 		AppName = appName;
 		Environment = environment;
-		Date = date;
+		this.startDate = startDate;
+		this.endDate = endDate;
 		EventName = eventName;
+		EventType = eventType;
 		EventDetails = eventDetails;
 	}
-	
-	
-	
+
+
+
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getEventType() {
+		return EventType;
+	}
+
+	public void setEventType(String eventType) {
+		EventType = eventType;
+	}
+
 	public String getEnvironment() {
 		return Environment;
 	}
@@ -70,12 +106,7 @@ public class Event {
 	public void setAppName(String appName) {
 		AppName = appName;
 	}
-	public Date getDate() {
-		return Date;
-	}
-	public void setDate(Date date) {
-		Date = date;
-	}
+
 	public String getEventName() {
 		return EventName;
 	}
@@ -88,12 +119,13 @@ public class Event {
 	public void setEventDetails(String eventDetails) {
 		EventDetails = eventDetails;
 	}
-	
+
+
 	@Override
 	public String toString() {
-		return "Event [Id=" + Id + ", AppName=" + AppName + ", Date=" + Date + ", EventName=" + EventName
-				+ ", EventDetails=" + EventDetails + "]";
+		return "Event [Id=" + Id + ", AppName=" + AppName + ", Environment=" + Environment + ", startDate=" + startDate
+				+ ", endDate=" + endDate + ", EventName=" + EventName + ", EventType=" + EventType + ", EventDetails="
+				+ EventDetails + "]";
 	}
-	
-	
+		
 }

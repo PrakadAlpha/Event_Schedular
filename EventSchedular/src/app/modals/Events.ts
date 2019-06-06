@@ -1,8 +1,12 @@
 export class Events{
-  id:number;
+  id: number;
   appName: string;
-  environment: string;;
+  environment: string;
   eventName: string;
+  eventType:string ;
   eventDetails: string;
-  date: Date;
+  startDate: Date;
+  endDate: Date;
 }
+
+
