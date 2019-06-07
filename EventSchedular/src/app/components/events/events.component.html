@@ -38,17 +38,17 @@
               <div class="tile_2">
                 <mat-form-field class="field" appearance = "outline">
                     <mat-label>Event Details</mat-label>
-                    <textarea name="eventDetails" matInput [(ngModel)]="eventDetails" formControlName="eventDetails"></textarea>
+                    <textarea name="eventDetails" matInput [(ngModel)]="event.eventDetails" formControlName="eventDetails"></textarea>
                  </mat-form-field>
                   <mat-form-field class="field" appearance = "outline">
-                      <input matInput [matDatepicker]="startDate" placeholder="Start Date" formControlName="startDate">
-                      <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
-                      <mat-datepicker #startDate></mat-datepicker>
+                      <input matInput [matDatepicker]="starDate" placeholder="Start Date" formControlName="startDate" [(ngModel)]="event.startDate">
+                      <mat-datepicker-toggle matSuffix [for]="starDate"></mat-datepicker-toggle>
+                      <mat-datepicker #starDate></mat-datepicker>
                     </mat-form-field >
                       <mat-form-field class="field" appearance = "outline">
-                        <input matInput [matDatepicker]="endDate" placeholder="End Date" formControlName="endDate">
-                        <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
-                        <mat-datepicker #endDate></mat-datepicker>   
+                        <input matInput [matDatepicker]="enDate" placeholder="End Date" formControlName="endDate" [(ngModel)]="event.endDate">
+                        <mat-datepicker-toggle matSuffix [for]="enDate"></mat-datepicker-toggle>
+                        <mat-datepicker #enDate></mat-datepicker>   
                       </mat-form-field>
                       <div class="button-row">
                           <button mat-button type="submit" 

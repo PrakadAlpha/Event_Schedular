@@ -37,9 +37,9 @@ createGroup(){
    environment: new FormControl(''),
    eventName: new FormControl(''),
    eventType: new FormControl(''),
-   eventDetails: new FormControl(''),
-   startDate: new FormControl(''),
-   endDate: new FormControl('')
+   eventDetails: new FormControl(),
+   startDate: new FormControl(),
+   endDate: new FormControl()
  })
 };
 
@@ -48,7 +48,7 @@ createGroup(){
     this.events.addEvent(this.event)
                .subscribe(data => console.log(data), 
                           error => console.log(error));
-               this.event = new Events();
+               this.event = new Events();    
      }
 
 //Call save method after submit
