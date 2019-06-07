@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatIconModule, MatSelectModule, MatGridListModule, MatDatepickerModule, MatFormFieldModule } from "@angular/material";
+import { MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatIconModule, MatSelectModule, MatGridListModule, MatDatepickerModule, MatFormFieldModule, MatNativeDateModule } from "@angular/material";
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatMomentDateModule} from '@angular/material-moment-adapter'; 
 
@@ -11,10 +11,12 @@ const MaterialComponents = [
   MatIconModule,
   MatSelectModule,
   ReactiveFormsModule,
-  MatGridListModule,
   MatDatepickerModule,
   MatMomentDateModule,
-  MatFormFieldModule
+  MatNativeDateModule,
+  MatFormFieldModule,
+  MatGridListModule
+
 ];
 
 @NgModule({

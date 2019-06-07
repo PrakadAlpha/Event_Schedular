@@ -16,10 +16,10 @@ export class EventsComponent implements OnInit {
 
   submitted = false;
 
-  appName = ['PGP', 'WEBCASH', 'EM'];
+  appName = ['PGP', 'WEBCASH', 'BRIDGER', 'EM', 'SWIFT', 'TRAX'];
   environment = ['Prod', 'Dev', 'Qa'];
   eventName = ['Stable Changes', 'Development', 'Pipeline'];
-  eventType = ['Deploy', 'Patch'];
+  eventType = ['Deploy', 'Patch', 'Freeze'];
 
 
   constructor(private events: EventsService, private fb: FormBuilder) {

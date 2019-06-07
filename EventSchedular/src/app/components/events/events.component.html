@@ -1,27 +1,66 @@
-<div>
+<div class="event_form">
+  <mat-card class="card">
   <h2>Add Events</h2>
-  <form (ngSubmit)="onSubmit()">
-    <label for="appName">App Name</label>
-    <select name="appName" [(ngModel)]="event.appName">
-      <option value="Webcash">Webcash</option>
-      <option value="PGP">PGP</option>
-      <option value="Em">Em</option>
-    </select>
-    <label for="environment">App Environment</label>
-    <select name="environment" [(ngModel)]="event.environment">
-      <option value="Prod">Prod</option>
-      <option value="Dev">Dev</option>
-      <option value="QA">QA</option>
-    </select>
-    <label for="eventType">Event Name</label>
-    <select name="eventName" [(ngModel)]="event.eventName">
-      <option value="Deploy">Deploy</option>
-      <option value="Stable Changes">Stable Changes</option>
-      <option value="Pipeline">Pipeline</option>
-    </select>
-    <label for="eventDetails">Event Details</label>
-    <textarea name="eventDetails" id="" cols="30" rows="10" [(ngModel)]="event.eventDetails"></textarea>
-    <input type="date" name="date" [(ngModel)]="event.date">
-    <button type="submit">Submit</button>
-  </form>
+  <form (ngSubmit)="onSubmit()" class="form" [formGroup]="eventFormGroup">
+      <mat-grid-list cols="2" rowHeight="400px">
+        <mat-grid-tile>
+          <div class="tile_1">
+              <mat-form-field class="field" appearance = "outline">
+                  <mat-label>Application Name</mat-label>
+                  <mat-select name="appName" [(ngModel)]="event.appName" formControlName="appName">
+                    <mat-option *ngFor="let value of appName" [value]="value">{{value}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="field" appearance = "outline">
+                    <mat-label>Environment</mat-label>
+                    <mat-select name="environment" [(ngModel)]="event.environment" formControlName="environment">
+                      <mat-option *ngFor="let value of environment" [value]="value">{{value}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+              
+            <mat-form-field class="field" appearance = "outline">
+              <mat-label>Event Name</mat-label>
+              <mat-select name="eventName" [(ngModel)]="event.eventName" formControlName="eventName">
+                <mat-option *ngFor="let value of eventName" [value]="value">{{value}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="field" appearance = "outline">
+                <mat-label>Event Type</mat-label>
+                <mat-select name="eventType" [(ngModel)]="event.eventType" formControlName="eventType">
+                  <mat-option *ngFor="let value of eventType" [value]="value">{{value}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            </mat-grid-tile>
+            <mat-grid-tile >
+              <div class="tile_2">
+                <mat-form-field class="field" appearance = "outline">
+                    <mat-label>Event Details</mat-label>
+                    <textarea name="eventDetails" matInput [(ngModel)]="eventDetails" formControlName="eventDetails"></textarea>
+                 </mat-form-field>
+                  <mat-form-field class="field" appearance = "outline">
+                      <input matInput [matDatepicker]="startDate" placeholder="Start Date" formControlName="startDate">
+                      <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                      <mat-datepicker #startDate></mat-datepicker>
+                    </mat-form-field >
+                      <mat-form-field class="field" appearance = "outline">
+                        <input matInput [matDatepicker]="endDate" placeholder="End Date" formControlName="endDate">
+                        <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+                        <mat-datepicker #endDate></mat-datepicker>   
+                      </mat-form-field>
+                      <div class="button-row">
+                          <button mat-button type="submit" 
+                      class="mat-raised-button mat-primary" 
+                      [disabled]="!eventFormGroup.valid">Submit</button>
+                      <button mat-button type="reset" class="mat-raised-button">Clear</button>
+                      </div>
+              </div>
+
+                  </mat-grid-tile>
+      </mat-grid-list>
+
+          </form>
+</mat-card>
 </div>
