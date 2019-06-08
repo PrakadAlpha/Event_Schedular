@@ -14,6 +14,8 @@ export class EventsComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
+  searchKey: string;
+
   event: Events = new Events();
   
   eventFormGroup: FormGroup;

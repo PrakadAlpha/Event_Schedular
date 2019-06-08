@@ -64,6 +64,16 @@
           </form>
 </mat-card>
 
+<div class="search-div">
+  <button mat-raised-button (click)="onClick">
+    <mat-icon class="mat-18">add</mat-icon> Add Event
+  </button>
+  <mat-form-field class="search-form-field">
+    <input matInput [(ngModel)]="searchKey" placeholder="Search.." autocomplete="off">
+    <button mat-button matSuffix mat-icon-button aria-label="Clear"></button>
+  </mat-form-field>
+</div>
+
 <div class="mat-elevation-z8">
   <mat-table [dataSource]="datasource" matSort>
     <ng-container matColumnDef="id">
@@ -97,8 +107,8 @@
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let row">
-        <button mat-icon-button><mat-icon class="mat-18">edit</mat-icon></button>
-        <button mat-icon-button color="warn"><mat-icon class="mat-18">delete</mat-icon></button>
+        <button mat-icon-button (click) = "update()"><mat-icon class="mat-18">edit</mat-icon></button>
+        <button mat-icon-button (click) = "delete()" color="warn"><mat-icon class="mat-18">delete</mat-icon></button>
       </mat-cell>
     </ng-container>
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
