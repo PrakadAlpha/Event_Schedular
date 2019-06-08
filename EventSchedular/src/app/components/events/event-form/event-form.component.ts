@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Events } from 'src/app/modals/Events';
 import { EventsService } from 'src/app/services/events.service';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { MatDialogRef } from '@angular/material';
+import { EventsComponent } from '../events.component';
 
 @Component({
   selector: 'app-event-form',
@@ -12,8 +14,6 @@ export class EventFormComponent implements OnInit {
 
   event: Events = new Events();
 
-  eventFormGroup: FormGroup;
-
   submitted = false;
 
   appName = ['PGP', 'WEBCASH', 'BRIDGER', 'EM', 'SWIFT', 'TRAX'];
@@ -22,41 +22,45 @@ export class EventFormComponent implements OnInit {
   eventType = ['Deploy', 'Patch', 'Freeze'];
 
 
-  constructor(private events: EventsService, private fb: FormBuilder) {
-    this.eventFormGroup = this.createGroup();
-   }
-
+  constructor(private service: EventsService, private fb: FormBuilder, private dialogRef: MatDialogRef<EventsComponent>) {
+  }
+  
   ngOnInit() {
   }
 
-
-//Form Group
-createGroup(){
-  return  new FormGroup({
-   $key: new FormControl(null),
-   appName: new FormControl(''),
-   environment: new FormControl(''),
-   eventName: new FormControl(''),
-   eventType: new FormControl(''),
-   eventDetails: new FormControl(),
-   startDate: new FormControl(),
-   endDate: new FormControl()
- })
-};
-
 //Subscribe and send data to service
   save(){
-    this.events.addEvent(this.event)
+    this.service.addEvent(this.service.form.value)
                .subscribe(data => console.log(data), 
                           error => console.log(error));
                this.event = new Events();  
      }
 
+     update(){
+      this.service.updateEvent(this.service.form.value)
+                  .subscribe(data => console.log(data),
+                             error => console.log(error));
+    }
+
 //Call save method after submit
   onSubmit(){
-    this.submitted = true;
-    this.save();    
+    if(!this.service.form.get('id').value)
+      this.save();
+    else
+      this.update();
+      this.service.form.reset();
+      this.service.initializeFormGroup();
+      this.onClose();    
   }
 
+  onClose(){
+    this.service.form.reset();
+    this.service.initializeFormGroup();
+    this.dialogRef.close();
+  }
+
+  onClear(){
+    this.service.form.reset();
+  }
 
 }

@@ -44,8 +44,8 @@
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let row">
-        <button mat-icon-button (click) = "update()"><mat-icon class="mat-18">edit</mat-icon></button>
-        <button mat-icon-button (click) = "delete()" color="warn"><mat-icon class="mat-18">delete</mat-icon></button>
+        <button mat-icon-button (click) = "onEdit(row)"><mat-icon class="mat-18">edit</mat-icon></button>
+        <button mat-icon-button (click) = "delete(row.id)" color="warn"><mat-icon class="mat-18">delete</mat-icon></button>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="loading">

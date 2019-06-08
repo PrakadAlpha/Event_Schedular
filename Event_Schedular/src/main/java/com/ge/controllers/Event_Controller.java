@@ -57,7 +57,7 @@ public class Event_Controller {
 		if(service.GetById(id) != null) {
 			 service.Delete(id);		
 			 }else {
-				
+				System.out.println("Cannot delete null..!");
 			 }
 		
 	}

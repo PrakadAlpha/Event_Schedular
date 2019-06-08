@@ -2,16 +2,48 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Events } from '../modals/Events';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EventsService {
 
+  eventFormGroup : FormGroup;
+
   private baseUrl = 'http://localhost:8080/api';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+  }
+  
+ form: FormGroup = new FormGroup({
+     id: new FormControl(null),
+     appName: new FormControl('', Validators.required),
+     environment: new FormControl('', Validators.required),
+     eventName: new FormControl('', Validators.required),
+     eventType: new FormControl('', Validators.required),
+     eventDetails: new FormControl('', [Validators.required, Validators.minLength(8)]),
+     startDate: new FormControl('', Validators.required),
+     endDate: new FormControl('', Validators.required)
+   })
 
+   initializeFormGroup() {
+    this.form.setValue({
+      id: null,
+      appName: '',
+      environment: '',
+      eventName: '',
+      eventType: '',
+      eventDetails: '',
+      startDate: '',
+      endDate: ''
+    });
+  }
+
+
+  populateForm(Event){
+    this.form.setValue(Event);
+  }
 
   //Getting Event By Id
 
@@ -20,7 +52,7 @@ export class EventsService {
     let password = "admin1";
     const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(username + ':' + password) });
 
-    return this.http.get(`${this.baseUrl}/events/${id}`);
+    return this.http.get(`${this.baseUrl}/events/${id}`, {headers});
   }
 
   // Adding an Event
@@ -61,9 +93,10 @@ export class EventsService {
   deleteEvent(id: number): Observable<Object>{
     let username = "admin1";
     let password = "admin1";
+  
     const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(username + ':' + password) });
-
-    return this.http.delete(`${this.baseUrl}/events/${id}`);
+    console.log(id);
+    return this.http.delete(`${this.baseUrl}` + `/events/` + `${id}`, {headers});
   }
 
 }

@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { EventsService } from 'src/app/services/events.service';
 import { Events } from 'src/app/modals/Events';
-import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogConfig } from '@angular/material';
 import { EventFormComponent } from './event-form/event-form.component';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-events',
@@ -17,6 +18,8 @@ export class EventsComponent implements OnInit {
   searchKey: string;
 
   event: Events = new Events();
+
+  child: EventFormComponent;
   
   datasource : MatTableDataSource<any>;
 
@@ -24,33 +27,33 @@ export class EventsComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'appName', 'environment', 'eventName', 'eventType', 'startDate', 'endDate', 'actions'];
 
-  constructor(private events: EventsService, private dialog: MatDialog) {
-    }
-
-  ngOnInit() {  
-    this.list();     
+  constructor(private service: EventsService, private dialog: MatDialog) {
   }
 
+  ngOnInit() {  
   
-  update(){
-    this.events.updateEvent(this.event)
-                .subscribe(data => console.log(data),
-                           error => console.log(error));
+  this.service.listEvent().subscribe(data => {this.listData = data;
+      this.datasource = new MatTableDataSource(this.listData);
+      this.datasource.sort = this.sort; 
+      this.datasource.paginator = this.paginator;
+      },
+      error => console.log(error));
+    }  
+
+  onEdit(row){
+    this.service.populateForm(row);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "auto";
+    this.dialog.open(EventFormComponent, dialogConfig);
   }
 
   // this.datasouce = new MatTableDataSource(res);
 
-  list(){
-    return this.events.listEvent().subscribe(data => {this.listData = data;
-    this.datasource = new MatTableDataSource(this.listData);
-    this.datasource.sort = this.sort; 
-    this.datasource.paginator = this.paginator;
-    },
-    error => console.log(error));
-  }
-
-  delete(){
-    this.events.deleteEvent(this.event.id).subscribe(data => console.log(data),
+  delete(id){
+    console.log(id);
+    this.service.deleteEvent(id).subscribe(data => console.log(data),
                                         error => console.log(error));
   }
  
@@ -66,7 +69,11 @@ export class EventsComponent implements OnInit {
 
   onClick(){
 
-    this.dialog.open(EventFormComponent);
+    const dialogConfig = new MatDialogConfig();
 
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "auto";
+    this.dialog.open(EventFormComponent, dialogConfig);
   }
 }
