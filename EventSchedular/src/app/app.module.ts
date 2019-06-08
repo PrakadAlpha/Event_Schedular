@@ -12,6 +12,7 @@ import { LoginComponent } from './components/login/login.component';
 import { LogoutComponent } from './components/logout/logout.component'; 
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from './material/material.module';
+import { EventFormComponent } from './components/events/event-form/event-form.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { MaterialModule } from './material/material.module';
     IndexComponent,
     EventsComponent,
     LoginComponent,
-    LogoutComponent
+    LogoutComponent,
+    EventFormComponent
   ],
   imports: [
     BrowserModule,
@@ -31,6 +33,7 @@ import { MaterialModule } from './material/material.module';
     MaterialModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [EventFormComponent]
 })
 export class AppModule { }

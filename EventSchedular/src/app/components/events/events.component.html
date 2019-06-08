@@ -1,71 +1,6 @@
 <div class="event_form">
-  <mat-card class="card">
-  <h2>Add Events</h2>
-  <form (ngSubmit)="onSubmit()" class="form" [formGroup]="eventFormGroup">
-      <mat-grid-list cols="2" rowHeight="400px">
-        <mat-grid-tile>
-          <div class="tile_1">
-              <mat-form-field class="field" appearance = "outline">
-                  <mat-label>Application Name</mat-label>
-                  <mat-select name="appName" [(ngModel)]="event.appName" formControlName="appName">
-                    <mat-option *ngFor="let value of appName" [value]="value">{{value}}</mat-option>
-                  </mat-select>
-                </mat-form-field>
-
-                <mat-form-field class="field" appearance = "outline">
-                    <mat-label>Environment</mat-label>
-                    <mat-select name="environment" [(ngModel)]="event.environment" formControlName="environment">
-                      <mat-option *ngFor="let value of environment" [value]="value">{{value}}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-              
-            <mat-form-field class="field" appearance = "outline">
-              <mat-label>Event Name</mat-label>
-              <mat-select name="eventName" [(ngModel)]="event.eventName" formControlName="eventName">
-                <mat-option *ngFor="let value of eventName" [value]="value">{{value}}</mat-option>
-              </mat-select>
-            </mat-form-field>
-
-            <mat-form-field class="field" appearance = "outline">
-                <mat-label>Event Type</mat-label>
-                <mat-select name="eventType" [(ngModel)]="event.eventType" formControlName="eventType">
-                  <mat-option *ngFor="let value of eventType" [value]="value">{{value}}</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-            </mat-grid-tile>
-            <mat-grid-tile >
-              <div class="tile_2">
-                <mat-form-field class="field" appearance = "outline">
-                    <mat-label>Event Details</mat-label>
-                    <textarea name="eventDetails" matInput [(ngModel)]="event.eventDetails" formControlName="eventDetails"></textarea>
-                 </mat-form-field>
-                  <mat-form-field class="field" appearance = "outline">
-                      <input matInput [matDatepicker]="starDate" placeholder="Start Date" formControlName="startDate" [(ngModel)]="event.startDate">
-                      <mat-datepicker-toggle matSuffix [for]="starDate"></mat-datepicker-toggle>
-                      <mat-datepicker #starDate></mat-datepicker>
-                    </mat-form-field >
-                      <mat-form-field class="field" appearance = "outline">
-                        <input matInput [matDatepicker]="enDate" placeholder="End Date" formControlName="endDate" [(ngModel)]="event.endDate">
-                        <mat-datepicker-toggle matSuffix [for]="enDate"></mat-datepicker-toggle>
-                        <mat-datepicker #enDate></mat-datepicker>   
-                      </mat-form-field>
-                      <div class="button-row">
-                          <button mat-button type="submit" 
-                      class="mat-raised-button mat-primary" 
-                      [disabled]="!eventFormGroup.valid">Submit</button>
-                      <button mat-button type="reset" class="mat-raised-button">Clear</button>
-                      </div>
-              </div>
-
-                  </mat-grid-tile>
-      </mat-grid-list>
-
-          </form>
-</mat-card>
-
 <div class="search-div">
-  <button mat-raised-button (click)="onClick">
+  <button  class="button" mat-raised-button (click)="onClick()">
     <mat-icon class="mat-18">add</mat-icon> Add Event
   </button>
   <mat-form-field class="search-bar" appearance="outline">
@@ -76,7 +11,7 @@
   </mat-form-field>
 </div>
 
-<div class="mat-elevation-z8">
+<div class="mat-elevation-z8 table">
   <mat-table [dataSource]="datasource" matSort>
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>

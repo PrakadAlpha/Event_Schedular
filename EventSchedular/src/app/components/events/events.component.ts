@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { EventsService } from 'src/app/services/events.service';
 import { Events } from 'src/app/modals/Events';
-import {FormGroup, FormBuilder, FormControl} from '@angular/forms';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
+import { EventFormComponent } from './event-form/event-form.component';
 
 @Component({
   selector: 'app-events',
@@ -18,59 +18,20 @@ export class EventsComponent implements OnInit {
 
   event: Events = new Events();
   
-  eventFormGroup: FormGroup;
-
-  submitted = false;
-
-  appName = ['PGP', 'WEBCASH', 'BRIDGER', 'EM', 'SWIFT', 'TRAX'];
-  environment = ['Prod', 'Dev', 'Qa'];
-  eventName = ['Stable Changes', 'Development', 'Pipeline'];
-  eventType = ['Deploy', 'Patch', 'Freeze'];
-
   datasource : MatTableDataSource<any>;
 
   listData : Events[];
 
   displayedColumns: string[] = ['id', 'appName', 'environment', 'eventName', 'eventType', 'startDate', 'endDate', 'actions'];
 
-  constructor(private events: EventsService, private fb: FormBuilder) {
-      this.eventFormGroup = this.createGroup();
+  constructor(private events: EventsService, private dialog: MatDialog) {
     }
 
-  ngOnInit() {       
-    this.list();
+  ngOnInit() {  
+    this.list();     
   }
 
   
-
-//Form Group
-createGroup(){
-  return  new FormGroup({
-   $key: new FormControl(null),
-   appName: new FormControl(''),
-   environment: new FormControl(''),
-   eventName: new FormControl(''),
-   eventType: new FormControl(''),
-   eventDetails: new FormControl(),
-   startDate: new FormControl(),
-   endDate: new FormControl()
- })
-};
-
-//Subscribe and send data to service
-  save(){
-    this.events.addEvent(this.event)
-               .subscribe(data => console.log(data), 
-                          error => console.log(error));
-               this.event = new Events();  
-     }
-
-//Call save method after submit
-  onSubmit(){
-    this.submitted = true;
-    this.save();    
-  }
-
   update(){
     this.events.updateEvent(this.event)
                 .subscribe(data => console.log(data),
@@ -103,4 +64,9 @@ createGroup(){
     this.datasource.filter = this.searchKey.trim().toLowerCase();
   }
 
+  onClick(){
+
+    this.dialog.open(EventFormComponent);
+
+  }
 }
