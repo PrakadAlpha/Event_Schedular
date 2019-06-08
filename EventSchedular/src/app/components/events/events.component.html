@@ -63,4 +63,47 @@
 
           </form>
 </mat-card>
+
+<div class="mat-elevation-z8">
+  <mat-table [dataSource]="datasource" matSort>
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="appName" >
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Application Name</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.appName}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="environment">
+      <mat-header-cell *matHeaderCellDef  mat-sort-header>Environment</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.environment}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="eventName">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Event Name</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.eventName}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="eventType">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Event Type</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.eventType}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="startDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.startDate | date:"MM/dd/yy" }} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="endDate">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>End Date</mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.endDate | date:"MM/dd/yy" }} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let row">
+        <button mat-icon-button><mat-icon class="mat-18">edit</mat-icon></button>
+        <button mat-icon-button color="warn"><mat-icon class="mat-18">delete</mat-icon></button>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[5,10,25,100]" [pageSize] ="5"></mat-paginator>
+</div>
 </div>

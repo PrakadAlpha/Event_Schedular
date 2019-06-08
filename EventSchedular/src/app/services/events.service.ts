@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Events } from '../modals/Events';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +36,7 @@ export class EventsService {
 
   //Listing events
 
-  listEvent(): Observable<Object>{
+  listEvent(): Observable<any>{
 
     let username = "admin1";
     let password = "admin1";
