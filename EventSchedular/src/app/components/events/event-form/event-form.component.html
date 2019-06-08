@@ -2,8 +2,8 @@
 <mat-card class="card">
     <mat-toolbar>
         <span>{{service.form.controls['id'].value?"Edit Event":"Add Event"}}</span>
-        <span class="fill-remaining-space"></span>
-        <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>clear</mat-icon></button>
+        <span class="fill"></span>
+        <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>close</mat-icon></button>
       </mat-toolbar>
         <form (submit)="onSubmit()" class="form" [formGroup]="service.form">
       <mat-grid-list cols="2" rowHeight="400px">
