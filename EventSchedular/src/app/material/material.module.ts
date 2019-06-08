@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatIconModule, MatSelectModule, MatGridListModule, MatDatepickerModule, MatFormFieldModule, MatNativeDateModule, MatTableModule, MatPaginatorModule, MatSortModule } from "@angular/material";
+import { MatToolbarModule, MatButtonModule, MatCardModule, MatInputModule, MatIconModule, MatSelectModule, MatGridListModule, MatDatepickerModule, MatFormFieldModule, MatNativeDateModule, MatTableModule, MatPaginatorModule, MatSortModule, MatDialogModule } from "@angular/material";
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatMomentDateModule} from '@angular/material-moment-adapter'; 
 
@@ -18,8 +18,8 @@ const MaterialComponents = [
   MatGridListModule,
   MatTableModule,
   MatPaginatorModule,
-  MatSortModule
-
+  MatSortModule,
+  MatDialogModule
 ];
 
 @NgModule({

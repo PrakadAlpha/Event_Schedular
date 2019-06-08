@@ -93,4 +93,14 @@ createGroup(){
                                         error => console.log(error));
   }
 
+
+  onSearchClear(){
+    this.searchKey="";
+    this.applyFilter();
+  }
+
+  applyFilter(){
+    this.datasource.filter = this.searchKey.trim().toLowerCase();
+  }
+
 }
