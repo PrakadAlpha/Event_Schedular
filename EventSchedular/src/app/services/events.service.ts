@@ -15,7 +15,11 @@ export class EventsService {
   //Getting Event By Id
 
   getEventId(id: number): Observable<Object>{
-    return this.http.get(`${this.baseUrl}/events/{id}`);
+    let username = "admin1";
+    let password = "admin1";
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(username + ':' + password) });
+
+    return this.http.get(`${this.baseUrl}/events/${id}`);
   }
 
   // Adding an Event
@@ -24,9 +28,41 @@ export class EventsService {
 
     let username = "admin1";
     let password = "admin1";
-
     const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(username + ':' + password) });
 
     return this.http.post(`${this.baseUrl}` + `/events`, event, {headers});
   } 
+
+  //Listing events
+
+  listEvent(): Observable<Object>{
+
+    let username = "admin1";
+    let password = "admin1";
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(username + ':' + password) });
+
+    return this.http.get(`${this.baseUrl}` + `/events`, {headers});
+  } 
+
+  //Update events
+
+  updateEvent(event: Object): Observable<Object>{
+
+    let username = "admin1";
+    let password = "admin1";
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(username + ':' + password) });
+
+    return this.http.put(`${this.baseUrl}` + `/events`, event, {headers});
+  } 
+
+  //Delete events
+
+  deleteEvent(id: number): Observable<Object>{
+    let username = "admin1";
+    let password = "admin1";
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(username + ':' + password) });
+
+    return this.http.delete(`${this.baseUrl}/events/${id}`);
+  }
+
 }

@@ -10,7 +10,7 @@ import {FormGroup, FormBuilder, FormControl} from '@angular/forms';
 })
 export class EventsComponent implements OnInit {
 
-  private event: Events = new Events();
+  event: Events = new Events();
 
   eventFormGroup: FormGroup;
 
@@ -55,6 +55,22 @@ createGroup(){
   onSubmit(){
     this.submitted = true;
     this.save();    
+  }
+
+  update(){
+    this.events.updateEvent(this.event)
+                .subscribe(data => console.log(data),
+                           error => console.log(error));
+  }
+
+  list(){
+    this.events.listEvent().subscribe(data => console.log(data),
+                                       error => console.log(error));
+  }
+
+  delete(){
+    this.events.deleteEvent(this.event.id).subscribe(data => console.log(data),
+                                        error => console.log(error));
   }
 
 }
