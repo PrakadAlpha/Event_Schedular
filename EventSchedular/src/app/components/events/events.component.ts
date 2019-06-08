@@ -4,6 +4,7 @@ import { Events } from 'src/app/modals/Events';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogConfig } from '@angular/material';
 import { EventFormComponent } from './event-form/event-form.component';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-events',
@@ -18,12 +19,13 @@ export class EventsComponent implements OnInit {
   searchKey: string;
 
   event: Events = new Events();
-
-  child: EventFormComponent;
   
   datasource : MatTableDataSource<any>;
 
   listData : Events[];
+
+  events: Observable<Events>;
+
 
   displayedColumns: string[] = ['id', 'appName', 'environment', 'eventName', 'eventType', 'startDate', 'endDate', 'actions'];
 
@@ -32,12 +34,13 @@ export class EventsComponent implements OnInit {
 
   ngOnInit() {  
   
-  this.service.listEvent().subscribe(data => {this.listData = data;
-      this.datasource = new MatTableDataSource(this.listData);
-      this.datasource.sort = this.sort; 
-      this.datasource.paginator = this.paginator;
-      },
-      error => console.log(error));
+  this.service.listEvent()
+              .subscribe(data => {this.listData = data;
+                                  this.datasource = new MatTableDataSource(this.listData);
+                                  this.datasource.sort = this.sort; 
+                                  this.datasource.paginator = this.paginator;
+                                 },
+                         error => console.log(error));
     }  
 
   onEdit(row){
@@ -52,9 +55,11 @@ export class EventsComponent implements OnInit {
   // this.datasouce = new MatTableDataSource(res);
 
   delete(id){
-    console.log(id);
-    this.service.deleteEvent(id).subscribe(data => console.log(data),
-                                        error => console.log(error));
+    if(confirm('Are you sure to delete this record ?')){
+      this.service.deleteEvent(id).subscribe(data => console.log(data),
+      error => console.log(error));
+    }
+  
   }
  
 
