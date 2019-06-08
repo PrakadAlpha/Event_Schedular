@@ -16,3 +16,12 @@ html, body{
 body{
     font-size: 1em;
 }
+
+.hide{
+display: none;
+}
+
+.loading, .noData{
+justify-content: center;
+font-style: italic;
+}

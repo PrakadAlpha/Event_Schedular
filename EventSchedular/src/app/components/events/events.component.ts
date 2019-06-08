@@ -53,7 +53,7 @@ export class EventsComponent implements OnInit {
     this.events.deleteEvent(this.event.id).subscribe(data => console.log(data),
                                         error => console.log(error));
   }
-
+ 
 
   onSearchClear(){
     this.searchKey="";
