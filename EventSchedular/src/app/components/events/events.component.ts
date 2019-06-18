@@ -1,9 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { EventsService } from 'src/app/services/events.service';
 import { Events } from 'src/app/modals/Events';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogConfig } from '@angular/material';
 import { EventFormComponent } from './event-form/event-form.component';
-import { FormGroup, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -22,7 +21,6 @@ export class EventsComponent implements OnInit {
   
   datasource : MatTableDataSource<any>;
 
-  listData : Events[];
 
   events: Observable<Events>;
 
@@ -32,16 +30,25 @@ export class EventsComponent implements OnInit {
   constructor(private service: EventsService, private dialog: MatDialog) {
   }
 
+
+  load(){
+    location.reload();
+  }
+
   ngOnInit() {  
-  
-  this.service.listEvent()
-              .subscribe(data => {this.listData = data;
-                                  this.datasource = new MatTableDataSource(this.listData);
-                                  this.datasource.sort = this.sort; 
-                                  this.datasource.paginator = this.paginator;
-                                 },
-                         error => console.log(error));
+    this.service.listEvent().subscribe(data => {
+      let listData = data.map(list =>{
+        return list
+      });
+      this.datasource = new MatTableDataSource(listData);
+      this.datasource.sort = this.sort; 
+      this.datasource.paginator = this.paginator;
+     },
+  error => console.log(error)); 
     }  
+
+ 
+                    
 
   onEdit(row){
     this.service.populateForm(row);
@@ -52,14 +59,15 @@ export class EventsComponent implements OnInit {
     this.dialog.open(EventFormComponent, dialogConfig);
   }
 
-  // this.datasouce = new MatTableDataSource(res);
-
   delete(id){
     if(confirm('Are you sure to delete this record ?')){
-      this.service.deleteEvent(id).subscribe(data => console.log(data),
+      this.service.deleteEvent(id)
+      .subscribe(data => {
+        console.log(data)
+         this.ngOnInit()
+      },
       error => console.log(error));
     }
-  
   }
  
 
