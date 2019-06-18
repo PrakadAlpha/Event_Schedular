@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Events } from 'src/app/modals/Events';
 import { EventsService } from 'src/app/services/events.service';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { MatDialogRef } from '@angular/material';
+import { FormBuilder} from '@angular/forms';
+import { MatDialogRef} from '@angular/material';
 import { EventsComponent } from '../events.component';
 
 @Component({
@@ -13,7 +13,7 @@ import { EventsComponent } from '../events.component';
 export class EventFormComponent implements OnInit {
 
   event: Events = new Events();
-
+  
   submitted = false;
 
   appName = ['PGP', 'WEBCASH', 'BRIDGER', 'EM', 'SWIFT', 'TRAX'];
@@ -22,7 +22,7 @@ export class EventFormComponent implements OnInit {
   eventType = ['Deploy', 'Patch', 'Freeze'];
 
 
-  constructor(private service: EventsService, private fb: FormBuilder, private dialogRef: MatDialogRef<EventsComponent>) {
+  constructor(public service: EventsService, private fb: FormBuilder, private dialogRef: MatDialogRef<EventsComponent>) {
   }
   
   ngOnInit() {
@@ -31,26 +31,32 @@ export class EventFormComponent implements OnInit {
 //Subscribe and send data to service
   save(){
     this.service.addEvent(this.service.form.value)
-               .subscribe(data => console.log(data), 
+               .subscribe(data => {
+                 console.log(data)
+                }, 
                           error => console.log(error));
-               this.event = new Events();  
+               this.event = new Events(); 
      }
 
      update(){
       this.service.updateEvent(this.service.form.value)
-                  .subscribe(data => console.log(data),
+                  .subscribe(data =>{
+                    console.log(data)
+                   },
                              error => console.log(error));
     }
 
 //Call save method after submit
   onSubmit(){
-    if(!this.service.form.get('id').value)
+    if(!this.service.form.get('id').value){
       this.save();
+    }
     else
       this.update();
       this.service.form.reset();
       this.service.initializeFormGroup();
-      this.onClose();    
+      this.onClose();   
+      location.reload();
   }
 
   onClose(){
