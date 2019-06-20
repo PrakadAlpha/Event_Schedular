@@ -99,4 +99,15 @@ export class EventsService {
     return this.http.delete(`${this.baseUrl}` + `/events/` + `${id}`, {headers});
   }
 
+  // Generate Pdf
+
+  getPdf(startDate: string, endDate: string): Observable<Blob>{
+    let username = "admin1";
+    let password = "admin1";
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(username + ':' + password)});
+    console.log(startDate);
+    console.log(endDate);        
+    return this.http.get(`${this.baseUrl}` + `/events/report/` + `${startDate}` + `/` + `${endDate}`, {headers, responseType:'blob'});
+  }
+
 }
