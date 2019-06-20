@@ -1,6 +1,7 @@
 package com.ge.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,11 @@ public class Event_Service_Impl implements Event_Service_I{
 	@Override
 	public void Delete(Integer id) {
 		 repo.deleteById(id);
+	}
+
+	@Override
+	public List<Event> dateRange(Date sDate, Date eDate) {
+		return repo.getByDate(sDate, eDate);
 	}
 	
 }
