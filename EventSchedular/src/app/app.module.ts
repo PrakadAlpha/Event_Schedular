@@ -13,6 +13,7 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from './material/material.module';
 import { EventFormComponent } from './components/events/event-form/event-form.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { EventFormComponent } from './components/events/event-form/event-form.co
     BrowserAnimationsModule,
     MaterialModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent],
   entryComponents: [EventFormComponent]
 })
