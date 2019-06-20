@@ -1,8 +1,11 @@
 package com.ge.controllers;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,6 +62,14 @@ public class Event_Controller {
 			 }else {
 				System.out.println("Cannot delete null..!");
 			 }
+	}
+	
+	@GetMapping("/events/report/{startDate}/{endDate}")
+	public List<Event> generatePdf(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) throws ParseException {
+				
+		List<Event> events = service.dateRange(startDate, endDate);
+		System.out.println(events);
+		return events;
 		
 	}
 }
