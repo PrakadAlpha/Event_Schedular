@@ -4,6 +4,7 @@ import { Events } from 'src/app/modals/Events';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogConfig } from '@angular/material';
 import { EventFormComponent } from './event-form/event-form.component';
 import { Observable } from 'rxjs';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-events',
@@ -21,13 +22,15 @@ export class EventsComponent implements OnInit {
   
   datasource : MatTableDataSource<any>;
 
+  sDate: Date;
+  eDate: Date;
 
   events: Observable<Events>;
 
 
   displayedColumns: string[] = ['id', 'appName', 'environment', 'eventName', 'eventType', 'startDate', 'endDate', 'actions'];
 
-  constructor(private service: EventsService, private dialog: MatDialog) {
+  constructor(private service: EventsService, private dialog: MatDialog, private DatePipe: DatePipe) {
   }
 
 
@@ -89,4 +92,26 @@ export class EventsComponent implements OnInit {
     dialogConfig.width = "auto";
     this.dialog.open(EventFormComponent, dialogConfig);
   }
+
+  genPdf(){
+
+    let startDate = this.DatePipe.transform(this.sDate, "yyyy-MM-dd")
+    let endDate = this.DatePipe.transform(this.eDate, "yyyy-MM-dd")    
+
+    this.service.getPdf(startDate, endDate).subscribe(data => {
+
+      let nBlob = new Blob([data], { type: "application/pdf" });
+
+      let downloadURL = window.URL.createObjectURL(nBlob);
+      let link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = "Event Report.pdf";
+      link.click();
+
+      console.log("pdf Downloaded");
+      
+    },
+    error => console.log(error));
+  }
+
 }
