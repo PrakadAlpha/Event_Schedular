@@ -12,7 +12,7 @@
 </div>
 
 <div class="mat-elevation-z8 table">
-  <mat-table [dataSource]="datasource" matSort>
+  <mat-table [dataSource]="datasource"  matSort>
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.id}} </mat-cell>
@@ -64,5 +64,23 @@
     <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide': !( datasource != null && datasource.data.length == 0) }"></mat-footer-row>
   </mat-table>
   <mat-paginator [pageSizeOptions]="[5,10,25,100]" [pageSize] ="5" showFirstLastButtons></mat-paginator>
+</div>
+
+<div class="range">
+  <h3>Select Date Range</h3>
+  <form (submit)="genPdf()" method="GET" class="form-group">
+      <mat-form-field class="field" appearance = "outline">
+          <input matInput [matDatepicker]="starDate" placeholder="Start Date" [(ngModel)]="sDate" class="form-control" name ="sDate" required>
+          <mat-datepicker-toggle matSuffix [for]="starDate"></mat-datepicker-toggle>
+          <mat-datepicker #starDate></mat-datepicker>
+        </mat-form-field >
+          <mat-form-field class="field" appearance = "outline">
+            <input matInput [matDatepicker]="enDate" placeholder="End Date" [(ngModel)]="eDate" class="form-control" name="eDate" required>
+            <mat-datepicker-toggle matSuffix [for]="enDate"></mat-datepicker-toggle>
+            <mat-datepicker #enDate></mat-datepicker>   
+          </mat-form-field>
+          <button mat-button type="submit" class="mat-raised-button">Download as PDF</button>
+  </form>
+
 </div>
 </div>
