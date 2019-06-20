@@ -1,11 +1,18 @@
 package com.ge.controllers;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity.HeadersBuilder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,11 +72,20 @@ public class Event_Controller {
 	}
 	
 	@GetMapping("/events/report/{startDate}/{endDate}")
-	public List<Event> generatePdf(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) throws ParseException {
+	public ResponseEntity<InputStreamResource> generatePdf(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) throws ParseException {
 				
 		List<Event> events = service.dateRange(startDate, endDate);
-		System.out.println(events);
-		return events;
 		
+		ByteArrayInputStream bais = GeneratedPdfReport.eventsReport(events);
+		
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Content-Disposition", "attachment; filename = EventsReport.pdf");
+		
+		return ResponseEntity
+				.ok()
+				.headers(headers)
+				.contentType(MediaType.APPLICATION_PDF)
+				.body(new InputStreamResource(bais));
+				
 	}
 }

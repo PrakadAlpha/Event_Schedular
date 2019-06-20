@@ -29,12 +29,13 @@ public class Event {
 	@Column
 	private String Environment;
 	
-	@FutureOrPresent(message="Enter valid date..!")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	@Column
 	private Date startDate;
 	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Temporal(TemporalType.DATE)
 	@Column
 	private Date endDate;
 	

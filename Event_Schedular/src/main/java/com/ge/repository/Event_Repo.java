@@ -14,6 +14,6 @@ import com.ge.bean.Event;
 @Repository
 public interface Event_Repo extends CrudRepository<Event, Integer>{
 	
-	@Query("FROM Event e WHERE e.startDate between :sDate and :eDate")
+	@Query("FROM Event e WHERE e.startDate BETWEEN :sDate AND :eDate")
 	List<Event> getByDate(@Param("sDate") Date sDate, @Param("eDate") Date eDate);
 }
