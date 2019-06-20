@@ -49,19 +49,20 @@
                     <mat-label>Event Details</mat-label>
                     <textarea name="eventDetails" matInput formControlName="eventDetails" required></textarea>
                     <mat-error *ngIf="service.form.controls['eventDetails'].errors?.required">This field is mandatory.</mat-error>
-          <mat-error *ngIf="service.form.controls['eventDetails'].errors?.minlength">Minimum 8 charactors needed.</mat-error>
+                    <mat-error *ngIf="service.form.controls['eventDetails'].errors?.minlength">Minimum 8 charactors needed.</mat-error>
+                    <mat-hint>Minimum 8 Characters.</mat-hint>
                  </mat-form-field>
                   <mat-form-field class="field" appearance = "outline">
-                      <input matInput [matDatepicker]="starDate" placeholder="Start Date" formControlName="startDate" required>
+                      <input matInput [matDatepicker]="starDate" placeholder="Start Date" [min]="minDate" formControlName="startDate" required>
                       <mat-datepicker-toggle matSuffix [for]="starDate"></mat-datepicker-toggle>
                       <mat-datepicker #starDate></mat-datepicker>
-                      <mat-error>This field is mandatory.</mat-error>
+                      <mat-error *ngIf="service.form.controls['startDate'].errors?.required">Enter a Valid Date.</mat-error>
                     </mat-form-field >
                       <mat-form-field class="field" appearance = "outline">
                         <input matInput [matDatepicker]="enDate" placeholder="End Date" formControlName="endDate" required>
                         <mat-datepicker-toggle matSuffix [for]="enDate"></mat-datepicker-toggle>
                         <mat-datepicker #enDate></mat-datepicker>   
-                        <mat-error>This field is mandatory.</mat-error>
+                        <mat-error *ngIf="service.form.controls['endDate'].errors?.required">Enter a Valid Date.</mat-error>
                       </mat-form-field>
                       <div class="button-row">
                           <button mat-button type="submit" 
