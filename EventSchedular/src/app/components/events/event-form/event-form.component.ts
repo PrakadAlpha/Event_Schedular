@@ -16,6 +16,8 @@ export class EventFormComponent implements OnInit {
   
   submitted = false;
 
+  minDate = new Date();
+
   appName = ['PGP', 'WEBCASH', 'BRIDGER', 'EM', 'SWIFT', 'TRAX'];
   environment = ['Prod', 'Dev', 'Qa'];
   eventName = ['Stable Changes', 'Development', 'Pipeline'];
@@ -56,7 +58,10 @@ export class EventFormComponent implements OnInit {
       this.service.form.reset();
       this.service.initializeFormGroup();
       this.onClose();   
-      location.reload();
+      setTimeout(() =>{
+        location.reload();
+      }, 100)
+      
   }
 
   onClose(){
