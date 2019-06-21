@@ -2,11 +2,11 @@
     <div class="form">
       <mat-form-field class="input" appearance = "outline" >
         <mat-label>Username</mat-label>
-        <input matInput type="text" (ngModel)="username" autoFocus  > 
+        <input matInput type="text" [(ngModel)]="username" autoFocus  name="username"> 
       </mat-form-field>
       <mat-form-field class="input" appearance = "outline">
           <mat-label>Password</mat-label>
-          <input matInput type="password" (ngModel)="password">
+          <input matInput type="password" [(ngModel)]="password" name="password">
       </mat-form-field>
     </div>
     <button mat-raised-button (click)=checkLogin()>
