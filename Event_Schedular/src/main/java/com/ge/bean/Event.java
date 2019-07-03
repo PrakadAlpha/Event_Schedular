@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.FutureOrPresent;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -21,13 +20,13 @@ public class Event {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
-	private Integer Id;
+	private Integer id;
 	
 	@Column
-	private String AppName;
+	private String appName;
 	
 	@Column
-	private String Environment;
+	private String environment;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
@@ -40,35 +39,71 @@ public class Event {
 	private Date endDate;
 	
 	@Column
-	private String EventName;
+	private String eventName;
 	
 	@Column
-	private String EventType;
+	private String eventType;
 	
 	@Column
-	private String EventDetails;
+	private String eventDetails;
 	
+	@DateTimeFormat(pattern = "HH:MM")
+    @Temporal(TemporalType.TIME)
+	@Column
+	private Date startTime;
+
+	@DateTimeFormat(pattern = "HH:MM")
+    @Temporal(TemporalType.TIME)
+	@Column
+	private Date endTime;
 	
+	@Column
+	private String level;	
+
 	public Event() {
 		super();
 	}
 	
-	
 	public Event(Integer id, String appName, String environment, Date startDate, Date endDate, String eventName,
-			String eventType, String eventDetails) {
+			String eventType, String eventDetails, Date startTime, Date endTime, String level) {
 		super();
-		Id = id;
-		AppName = appName;
-		Environment = environment;
+		this.id = id;
+		this.appName = appName;
+		this.environment = environment;
 		this.startDate = startDate;
 		this.endDate = endDate;
-		EventName = eventName;
-		EventType = eventType;
-		EventDetails = eventDetails;
+		this.eventName = eventName;
+		this.eventType = eventType;
+		this.eventDetails = eventDetails;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.level = level;
+	}
+	
+
+	public Integer getId() {
+		return id;
 	}
 
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
+	public String getAppName() {
+		return appName;
+	}
 
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
+
+	public String getEnvironment() {
+		return environment;
+	}
+
+	public void setEnvironment(String environment) {
+		this.environment = environment;
+	}
 
 	public Date getStartDate() {
 		return startDate;
@@ -78,7 +113,6 @@ public class Event {
 		this.startDate = startDate;
 	}
 
-
 	public Date getEndDate() {
 		return endDate;
 	}
@@ -87,54 +121,60 @@ public class Event {
 		this.endDate = endDate;
 	}
 
+	public String getEventName() {
+		return eventName;
+	}
+
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
+	}
+
 	public String getEventType() {
-		return EventType;
+		return eventType;
 	}
 
 	public void setEventType(String eventType) {
-		EventType = eventType;
+		this.eventType = eventType;
 	}
 
-	public String getEnvironment() {
-		return Environment;
-	}
-
-	public void setEnvironment(String environment) {
-		Environment = environment;
-	}
-
-	public Integer getId() {
-		return Id;
-	}
-	public void setId(Integer id) {
-		Id = id;
-	}
-	public String getAppName() {
-		return AppName;
-	}
-	public void setAppName(String appName) {
-		AppName = appName;
-	}
-
-	public String getEventName() {
-		return EventName;
-	}
-	public void setEventName(String eventName) {
-		EventName = eventName;
-	}
 	public String getEventDetails() {
-		return EventDetails;
+		return eventDetails;
 	}
+
 	public void setEventDetails(String eventDetails) {
-		EventDetails = eventDetails;
+		this.eventDetails = eventDetails;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
+	}
+
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
 	}
 
 
 	@Override
 	public String toString() {
-		return "Event [Id=" + Id + ", AppName=" + AppName + ", Environment=" + Environment + ", startDate=" + startDate
-				+ ", endDate=" + endDate + ", EventName=" + EventName + ", EventType=" + EventType + ", EventDetails="
-				+ EventDetails + "]";
+		return "Event [id=" + id + ", appName=" + appName + ", environment=" + environment + ", startDate=" + startDate
+				+ ", endDate=" + endDate + ", eventName=" + eventName + ", eventType=" + eventType + ", eventDetails="
+				+ eventDetails + ", startTime=" + startTime + ", endTime=" + endTime + ", level=" + level + "]";
 	}
-		
+	
 }
