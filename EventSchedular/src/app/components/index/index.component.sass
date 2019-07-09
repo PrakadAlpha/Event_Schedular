@@ -1,18 +1,47 @@
+$main-color: #3f51b5
+  
 .index_container
   display: grid
   grid-template-columns: 2fr 1fr
-  grid-template-rows: 500px
+  grid-template-rows: 620px
   margin: 10px
   grid-gap: 5px
-  height: 100%
-  overflow: hidden
-
+  
 .calender
   grid-column: 1/2
   grid-row: 1
+  width: 500px
+  justify-self: center
+
+  h3
+   margin-left: 10px
+
+  .month_nav
+    padding: 5px
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+
+  .year_nav
+    padding: 5px
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+
+  .nav_btn
+    color: #fff
+    padding: 0px 10px
+    background-color: $main-color
+    cursor: pointer
+    text-decoration: none
+    border-style: none
+    border-radius: 5px
+    outline: none
+    
+  .month, .year
+    margin: 10px
+
   
-.css
-  color: blue
 
 .details
   background: red
