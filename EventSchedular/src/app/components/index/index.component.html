@@ -1,7 +1,21 @@
 <div class="index_container">
   <div class="calender">
-    Calender
-    <button>click</button>
+      <!-- <full-calendar defaultView="dayGridMonth" [plugins]="calendarPlugins"  [events]="[
+      { title: 'event 1', date: '2019-04-01' },
+      { title: 'event 2', date: '2019-04-02' }
+    ]"
+    (dateClick)="handleDateClick($event)" ></full-calendar>  -->
+    <h3>Calender</h3><br>
+  <div class="month_nav">
+    <button class="nav_btn" (click)="prevMonth()"><i class="fa fas fa-angle-left fa-1x"></i></button>
+    <span class="month">{{currentMonth | date: 'MMMM'}}</span>
+    <button class="nav_btn" (click)="nextMonth()"><i class="fa fas fa-angle-right fa-1x"></i></button>
+  </div>
+  <div class="year_nav">
+    <button class="nav_btn" (click)="prevYear()"><i class="fa fas fa-angle-left fa-1x"></i></button>
+    <span class="year">{{currentYear | date: 'y'}}</span>
+    <button class="nav_btn" (click)="nextYear()"><i class="fa fas fa-angle-right fa-1x"></i></button>
+  </div>
   </div>
   <div class="details"></div>
 </div>
