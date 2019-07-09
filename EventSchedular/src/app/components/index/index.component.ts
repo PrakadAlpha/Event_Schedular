@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import dayGridPlugin from '@fullcalendar/daygrid';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 
