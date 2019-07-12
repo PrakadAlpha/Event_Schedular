@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import * as moment from 'moment';
 import * as _ from 'lodash';
@@ -14,6 +14,7 @@ export interface CalendarDate {
   templateUrl: './index.component.html',
   styleUrls: ['./index.component.sass']
 })
+
 export class IndexComponent implements OnInit {
 
   // calendarPlugins = [dayGridPlugin]; 
@@ -25,9 +26,6 @@ export class IndexComponent implements OnInit {
 
   @Input() selectedDates: CalendarDate[] = [];
   @Output() onSelectDate = new EventEmitter<CalendarDate>();
-
-  currentMonth = moment();
-  currentYear = moment();
   
 
   constructor(private loginService: AuthenticationService) { }
@@ -36,27 +34,42 @@ export class IndexComponent implements OnInit {
     // let p = document.createElement('p');
     // p.innerHTML = this.currentDate.toJSON();
     // document.querySelector('.calender').appendChild(p);
+    this.generateCalender();
   }
+
+  // ngOnChanges(changes: SimpleChanges): void {
+
+  //   console.log('Changed');
+    
+  //   if (changes.selectedDates &&
+  //       changes.selectedDates.currentValue &&
+  //       changes.selectedDates.currentValue.length  > 1) {
+
+  //     // sort on date changes for better performance when range checking
+  //   this.sortedDates = _.sortBy(changes.selectedDates.currentValue, (m: CalendarDate) => m.mDate.valueOf());
+  //   this.generateCalender();
+  //   }
+  // }
 
   //Actions
 
   prevMonth(): void {
-    this.currentMonth = moment(this.currentMonth).subtract(1, 'months');
+    this.currentDate = moment(this.currentDate).subtract(1, 'months');
     this.generateCalender();
   }
 
   nextMonth(): void {
-    this.currentMonth = moment(this.currentMonth).add(1, 'months');
-    this.generateCalender();
+    this.currentDate = moment(this.currentDate).add(1, 'months');
+    this.generateCalender(); 
   }
 
   prevYear(): void {
-    this.currentYear = moment(this.currentYear).subtract(1, 'years');
+    this.currentDate = moment(this.currentDate).subtract(1, 'years');
     this.generateCalender();
   }
   
   nextYear(): void {
-    this.currentYear = moment(this.currentYear).add(1, 'years');
+    this.currentDate = moment(this.currentDate).add(1, 'years');
     this.generateCalender();
   }
 
@@ -76,6 +89,10 @@ export class IndexComponent implements OnInit {
     }) > -1;
   }
 
+  isSelectedMonth(date: moment.Moment): boolean {
+    return moment(date).isSame(this.currentDate, 'month');
+  }
+
 //Generator
 
   generateCalender(): void{
@@ -89,9 +106,11 @@ export class IndexComponent implements OnInit {
 
   fillDates(currentMoment: moment.Moment): CalendarDate[] {
     const firstOfMonth = moment(currentMoment).startOf('month').day();
+    console.log(firstOfMonth);    
     const firstDayOfGrid = moment(currentMoment).startOf('month').subtract(firstOfMonth, 'days');
+    console.log(firstDayOfGrid);    
     const start = firstDayOfGrid.date();
-    return _.range(start, start + 70)
+    return _.range(start, start + 42)
             .map((date: number): CalendarDate => {
               const d = moment(firstDayOfGrid).date(date);
               return {
