@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.ge.bean.Event;
 import com.ge.service.Event_Service_I;
@@ -66,6 +67,19 @@ public class Event_Controller {
 				System.out.println("Cannot delete null..!");
 			 }
 	}
+	
+	@GetMapping("/events/event/{date}")
+	public List<Event> GetByDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+		List<Event> events = service.getEvents(date);
+		return events;		
+	}
+	
+	@GetMapping("/events/")
+	public List<Event> GetByDat(@RequestParam(name="date", required=false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+		List<Event> events = service.getEvents(date);
+		return events;		
+	}
+	
 	
 	@GetMapping("/events/report/{startDate}/{endDate}")
 	public ResponseEntity<InputStreamResource> generatePdf(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) throws ParseException {
