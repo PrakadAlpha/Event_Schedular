@@ -18,5 +18,8 @@ public interface Event_Service_I {
 	void Delete(Integer id);
 
 	List<Event> dateRange(Date startDate, Date endDate);
+	
+	List<Event> getEvents(Date date);
+
 
 }
