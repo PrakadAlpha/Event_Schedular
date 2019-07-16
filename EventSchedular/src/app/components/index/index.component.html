@@ -25,19 +25,18 @@
     <div class="weeks">
       <div *ngFor="let week of weeks" class="week">
         <ng-container *ngFor="let day of week">
-          <div class="week-date disabled" *ngIf="!isSelectedMonth(day.mDate)">
-            <span class="date-text">{{ day.mDate.date() }}</span>
-          </div>
           <div class="week-date enabled"
-               *ngIf="isSelectedMonth(day.mDate)"
                (click)="selectDate(day)"
                [ngClass]="{ today: day.today, selected: day.selected }">
             <span class="date-text">{{ day.mDate.date() }}</span>
+            <span class="badge deployProd"></span>
           </div>
         </ng-container>
       </div>
     </div>
   </div>
   </div>
-  <div class="details"></div>
+  <div class="details">
+    
+  </div>
 </div>
