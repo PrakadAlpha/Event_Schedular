@@ -54,5 +54,9 @@ public class Event_Service_Impl implements Event_Service_I{
 	public List<Event> dateRange(Date sDate, Date eDate) {
 		return repo.getByDate(sDate, eDate);
 	}
+		@Override
+	public List<Event> getEvents(Date date) {
+		return repo.getByDate(date);
+	}
 	
 }
