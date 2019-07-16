@@ -20,8 +20,9 @@ export class EventFormComponent implements OnInit {
 
   appName = ['PGP', 'WEBCASH', 'BRIDGER', 'EM', 'SWIFT', 'TRAX'];
   environment = ['Prod', 'Dev', 'Qa'];
-  eventName = ['Stable Changes', 'Development', 'Pipeline'];
-  eventType = ['Deploy', 'Patch', 'Freeze'];
+  eventName = ['Stable Operations', 'Development Projects', 'Project Pipeline'];
+  eventType = ['Deploy QA', 'Patching Prod', 'Patching QA/Dev', 'Freeze', 'Deploy Prod', 'Business Go Live'];
+
 
 
   constructor(public service: EventsService, private fb: FormBuilder, private dialogRef: MatDialogRef<EventsComponent>) {
