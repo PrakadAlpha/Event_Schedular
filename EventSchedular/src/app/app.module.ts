@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MaterialModule } from './material/material.module';
 import { EventFormComponent } from './components/events/event-form/event-form.component';
 import { DatePipe } from '@angular/common';
+import { CalenderComponent } from './components/index/calender/calender.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { DatePipe } from '@angular/common';
     EventsComponent,
     LoginComponent,
     LogoutComponent,
-    EventFormComponent
+    EventFormComponent,
+    CalenderComponent
   ],
   imports: [
     BrowserModule,

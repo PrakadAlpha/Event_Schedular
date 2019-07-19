@@ -2,6 +2,7 @@ package com.ge.controllers;
 
 import java.io.ByteArrayInputStream;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,8 @@ public class Event_Controller {
 	@GetMapping("/events/event/{date}")
 	public List<Event> GetByDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
 		List<Event> events = service.getEvents(date);
-		return events;		
+//		Object[] array = events.toArray();
+		return events;
 	}
 	
 	@GetMapping("/events/")

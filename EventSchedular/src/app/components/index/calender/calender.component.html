@@ -1,0 +1,31 @@
+<h3>Calender</h3><br>
+  <div class="month_nav">
+    <button class="nav_btn" (click)="prevMonth()"><i class="fa fas fa-angle-left fa-1x"></i></button>
+    <span class="month">{{currentDate | date: 'MMMM'}}</span>
+    <button class="nav_btn" (click)="nextMonth()"><i class="fa fas fa-angle-right fa-1x"></i></button>
+  </div>
+  <div class="year_nav">
+    <button class="nav_btn" (click)="prevYear()"><i class="fa fas fa-angle-left fa-1x"></i></button>
+    <span class="year">{{currentDate | date: 'y'}}</span>
+    <button class="nav_btn" (click)="nextYear()"><i class="fa fas fa-angle-right fa-1x"></i></button>
+  </div>
+  <div class="month-grid">
+    <div class="day-names">
+      <div *ngFor="let name of dayNames" class="day-name p9">
+        {{ name }}
+      </div>
+    </div>
+    <div class="weeks">
+      <div *ngFor="let week of weeks" class="week">
+        <ng-container *ngFor="let day of week">
+          <div class="week-date enabled"
+               (click)="selectDate(day)"
+               [ngClass]="{ today: day.today, selected: day.selected }">
+            <span class="date-text">{{ day.mDate.date() }}</span>
+
+            <span class="badge">{{events.length}}</span>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>

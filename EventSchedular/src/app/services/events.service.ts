@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { Events } from '../modals/Events';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import * as moment from 'moment';
+import { EventI } from '../components/index/calender/calender.component';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +43,9 @@ export class EventsService {
     });
   }
 
+  allocate(){
+   
+  }
 
   populateForm(Event){
     this.form.setValue(Event);
@@ -96,8 +102,15 @@ export class EventsService {
   
     const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(username + ':' + password) });
     console.log(id);
-    return this.http.delete(`${this.baseUrl}` + `/events/` + `${id}`, {headers});
+    return this.http.delete(`${this.baseUrl}/events/${id}`, {headers});
   }
+
+  getByDate(date: string): Observable<EventI>{
+    let username = "admin1";
+    let password = "admin1";
+    const headers = new HttpHeaders({ Authorization: 'Basic ' + btoa(username + ':' + password) });
+   return this.http.get<EventI>(`${this.baseUrl}/events/event/${date}`, {headers});
+   }
 
   // Generate Pdf
 
