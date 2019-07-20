@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
-import * as moment from "moment";
-import * as _ from "lodash";
-import { EventsService } from "src/app/services/events.service";
-import { DatePipe, Time } from "@angular/common";
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import * as moment from 'moment';
+import * as _ from 'lodash';
+import { EventsService } from 'src/app/services/events.service';
+import { DatePipe, Time } from '@angular/common';
 
 export interface CalendarEvent {
   mDate?: moment.Moment;
@@ -22,13 +22,14 @@ export interface CalendarEvent {
 }
 
 @Component({
-  selector: "app-calender",
-  templateUrl: "./calender.component.html",
-  styleUrls: ["./calender.component.sass"]
+  selector: 'app-calender',
+  templateUrl: './calender.component.html',
+  styleUrls: ['./calender.component.sass']
 })
+
 export class CalenderComponent implements OnInit {
   currentDate = moment();
-  dayNames = ["S", "M", "T", "W", "T", "F", "S"];
+  dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
   weeks: CalendarEvent[][] = [];
   sortedDates: CalendarEvent[] = [];
   // event: EventI[] = [];
@@ -45,32 +46,32 @@ export class CalenderComponent implements OnInit {
     this.generateCalender();
   }
 
-  //Actions
+  // Actions
 
   prevMonth(): void {
-    this.currentDate = moment(this.currentDate).subtract(1, "months");
+    this.currentDate = moment(this.currentDate).subtract(1, 'months');
     this.generateCalender();
   }
 
   nextMonth(): void {
-    this.currentDate = moment(this.currentDate).add(1, "months");
+    this.currentDate = moment(this.currentDate).add(1, 'months');
     this.generateCalender();
   }
 
   prevYear(): void {
-    this.currentDate = moment(this.currentDate).subtract(1, "years");
+    this.currentDate = moment(this.currentDate).subtract(1, 'years');
     this.generateCalender();
   }
 
   nextYear(): void {
-    this.currentDate = moment(this.currentDate).add(1, "years");
+    this.currentDate = moment(this.currentDate).add(1, 'years');
     this.generateCalender();
   }
 
-  //Checkers
+  // Checkers
 
   isToday(date: moment.Moment): boolean {
-    return moment().isSame(moment(date), "day");
+    return moment().isSame(moment(date), 'day');
   }
 
   selectDate(date: CalendarEvent): void {
@@ -80,21 +81,20 @@ export class CalenderComponent implements OnInit {
   isSelected(date: moment.Moment): boolean {
     return (
       _.findIndex(this.selectedDates, selectedDate => {
-        return moment(date).isSame(selectedDate.mDate, "day");
+        return moment(date).isSame(selectedDate.mDate, 'day');
       }) > -1
     );
   }
 
   isSelectedMonth(date: moment.Moment): boolean {
-    return moment(date).isSame(this.currentDate, "month");
+    return moment(date).isSame(this.currentDate, 'month');
   }
 
-  //Generator
+  // Generator
 
   generateCalender(): void {
     const dates = this.fillDates(this.currentDate);
     console.log(dates);
-    
     const weeks: CalendarEvent[][] = [];
     while (dates.length > 0) {
       weeks.push(dates.splice(0, 7));
@@ -106,11 +106,11 @@ export class CalenderComponent implements OnInit {
 
   fillDates(currentMoment: moment.Moment): CalendarEvent[] {
     const firstOfMonth = moment(currentMoment)
-      .startOf("month")
+      .startOf('month')
       .day();
     const firstDayOfGrid = moment(currentMoment)
-      .startOf("month")
-      .subtract(firstOfMonth, "days");
+      .startOf('month')
+      .subtract(firstOfMonth, 'days');
     const start = firstDayOfGrid.date();
 
     return _.range(start, start + 42)
@@ -161,13 +161,13 @@ export class CalenderComponent implements OnInit {
 
     mappedValues();
 
-    console.log("Main line");
+    console.log('Main line');
   }
 
   mapValues(values: CalendarEvent[]): CalendarEvent[] {
-    
+
     values.forEach(data => {
-      const date = data.mDate.format("YYYY-MM-DD");
+      const date = data.mDate.format('YYYY-MM-DD');
 
       this.service.getByDate(date).subscribe(dataList => {
         for (const i in dataList) {
