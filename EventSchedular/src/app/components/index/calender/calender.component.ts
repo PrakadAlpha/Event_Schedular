@@ -1,13 +1,16 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import * as moment from 'moment';
-import * as _ from 'lodash';
-import { EventsService } from 'src/app/services/events.service';
-import { DatePipe, Time } from '@angular/common';
+import { Component, OnInit, Input, Output, EventEmitter } from "@angular/core";
+import * as moment from "moment";
+import * as _ from "lodash";
+import { EventsService } from "src/app/services/events.service";
+import { DatePipe, Time } from "@angular/common";
 
 export interface CalendarEvent {
   mDate?: moment.Moment;
   selected?: boolean;
   today?: boolean;
+}
+
+export interface EventI{
   id?: number;
   appName?: string;
   environment?: string;
@@ -22,20 +25,17 @@ export interface CalendarEvent {
 }
 
 @Component({
-  selector: 'app-calender',
-  templateUrl: './calender.component.html',
-  styleUrls: ['./calender.component.sass']
+  selector: "app-calender",
+  templateUrl: "./calender.component.html",
+  styleUrls: ["./calender.component.sass"]
 })
-
 export class CalenderComponent implements OnInit {
   currentDate = moment();
-  dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  dayNames = ["S", "M", "T", "W", "T", "F", "S"];
   weeks: CalendarEvent[][] = [];
   sortedDates: CalendarEvent[] = [];
-  // event: EventI[] = [];
-  // events: EventI[] = [];
-  event: CalendarEvent[] = [];
-  events: CalendarEvent[] = [];
+  events: EventI[] = [];
+  dates: string [] ;
 
   @Input() selectedDates: CalendarEvent[] = [];
   @Output() onSelectDate = new EventEmitter<CalendarEvent>();
@@ -46,32 +46,32 @@ export class CalenderComponent implements OnInit {
     this.generateCalender();
   }
 
-  // Actions
+  //Actions
 
   prevMonth(): void {
-    this.currentDate = moment(this.currentDate).subtract(1, 'months');
+    this.currentDate = moment(this.currentDate).subtract(1, "months");
     this.generateCalender();
   }
 
   nextMonth(): void {
-    this.currentDate = moment(this.currentDate).add(1, 'months');
+    this.currentDate = moment(this.currentDate).add(1, "months");
     this.generateCalender();
   }
 
   prevYear(): void {
-    this.currentDate = moment(this.currentDate).subtract(1, 'years');
+    this.currentDate = moment(this.currentDate).subtract(1, "years");
     this.generateCalender();
   }
 
   nextYear(): void {
-    this.currentDate = moment(this.currentDate).add(1, 'years');
+    this.currentDate = moment(this.currentDate).add(1, "years");
     this.generateCalender();
   }
 
-  // Checkers
+  //Checkers
 
   isToday(date: moment.Moment): boolean {
-    return moment().isSame(moment(date), 'day');
+    return moment().isSame(moment(date), "day");
   }
 
   selectDate(date: CalendarEvent): void {
@@ -81,41 +81,102 @@ export class CalenderComponent implements OnInit {
   isSelected(date: moment.Moment): boolean {
     return (
       _.findIndex(this.selectedDates, selectedDate => {
-        return moment(date).isSame(selectedDate.mDate, 'day');
+        return moment(date).isSame(selectedDate.mDate, "day");
       }) > -1
     );
   }
 
   isSelectedMonth(date: moment.Moment): boolean {
-    return moment(date).isSame(this.currentDate, 'month');
+    return moment(date).isSame(this.currentDate, "month");
   }
 
-  // Generator
+  //Generator
 
-  generateCalender(): void {
+  generateCalender() {
     const dates = this.fillDates(this.currentDate);
-    console.log(dates);
+
+    console.log(dates.length);   
+
+    const dateArr = dates.map(data => {
+      return data.mDate.format("YYYY-MM-DD");
+    });
+
     const weeks: CalendarEvent[][] = [];
     while (dates.length > 0) {
       weeks.push(dates.splice(0, 7));
     }
     this.weeks = weeks;
-    const values = this.fillValues(dates);
-    console.log(values);
+
+    // this.mapValues(dateArr);
+    this.mapValues();
+
+    
+  
+    // const values = this.fillValues(dates);
+
+    // console.log(date)
+
+    // const values = this.mapValues(dateArr);
+
+    // console.log(values);
   }
+  mapValues(){
+    this.service.getByDate("2019-06-25").subscribe(data => {
+
+            this.events = data as EventI[];
+    })
+  }
+
+  // mapValues(dates: string[]){
+
+  //   dates.map(date => {
+
+  //     this.service.getByDate(date).subscribe(data => {
+
+  //       this.events = data as EventI[];
+  
+        // const values =  data.map((values): EventI => {
+  
+        //   return {
+        //     id: values.id,
+        //     appName: values.appName,
+        //     environment: values.environment,   
+        //     startDate: values.startDate,
+        //     endDate: values.endDate,
+        //     eventName: values.eventName,
+        //     eventType: values.eventType,
+        //     eventDetails: values.eventDetails,
+        //     startTime: values.startTime,
+        //     endTime: values.endTime,
+        //     level: values.level
+        //   }
+        // })
+  
+        // return values;
+  
+  //     })
+  //   });
+    
+  // }
 
   fillDates(currentMoment: moment.Moment): CalendarEvent[] {
     const firstOfMonth = moment(currentMoment)
-      .startOf('month')
+      .startOf("month")
       .day();
     const firstDayOfGrid = moment(currentMoment)
-      .startOf('month')
-      .subtract(firstOfMonth, 'days');
+      .startOf("month")
+      .subtract(firstOfMonth, "days");
     const start = firstDayOfGrid.date();
 
     return _.range(start, start + 42)
     .map((date: number): CalendarEvent => {
         const d1 = moment(firstDayOfGrid).date(date);
+        const d2 = d1.format("YYYY-MM-DD");
+        console.log(d2);    
+        // this.service.getByDate(d2).subscribe(data => {
+        //   this.events = data as CalendarEvent[];
+        //   console.log(this.events);     
+        // })    
         return {
           today: this.isToday(d1),
           selected: this.isSelected(d1),
@@ -125,59 +186,86 @@ export class CalenderComponent implements OnInit {
     );
   }
 
-  fillValues(dates: CalendarEvent[]) {
-    const mappedValues = async () => {
-      const fetchedVal = await this.mapValues(dates);
 
-      // for (const i in fetchedVal) {
-      //   if (fetchedVal.hasOwnProperty(i)) {
-      //    const element = fetchedVal[i];
-      //      this.events.push(element);
-      //    }
-      //  }
 
-      console.log(fetchedVal);
+  // fillValues(dates: CalendarEvent[]) {
+  //   const mappedValues = async () => {
+  //     const fetchedVal = await this.mapValues(dates);
 
-      fetchedVal.map(
-        (values): CalendarEvent => {
-          console.log(values.appName);
+  //     // for (const i in fetchedVal) {
+  //     //   if (fetchedVal.hasOwnProperty(i)) {
+  //     //    const element = fetchedVal[i];
+  //     //      this.events.push(element);
+  //     //    }
+  //     //  }
 
-          return {
-            id: values.id,
-            appName: values.appName,
-            environment: values.environment,
-            startDate: values.startDate,
-            endDate: values.endDate,
-            eventName: values.eventName,
-            eventType: values.eventType,
-            eventDetails: values.eventDetails,
-            startTime: values.startTime,
-            endTime: values.endTime,
-            level: values.level
-          };
-        }
-      );
-    };
+  //     console.log(fetchedVal);
 
-    mappedValues();
+  //     fetchedVal.map(
+  //       (values): EventI => {
+  //         console.log(values.appName);
 
-    console.log('Main line');
-  }
+  //         return {
+  //           id: values.id,
+  //           appName: values.appName,
+  //           environment: values.environment,
+  //           startDate: values.startDate,
+  //           endDate: values.endDate,
+  //           eventName: values.eventName,
+  //           eventType: values.eventType,
+  //           eventDetails: values.eventDetails,
+  //           startTime: values.startTime,
+  //           endTime: values.endTime,
+  //           level: values.level
+  //         };
+  //       }
+  //     );
+  //   };
 
-  mapValues(values: CalendarEvent[]): CalendarEvent[] {
+  //   mappedValues();
 
-    values.forEach(data => {
-      const date = data.mDate.format('YYYY-MM-DD');
+  //   console.log("Main line");
+  // }
 
-      this.service.getByDate(date).subscribe(dataList => {
-        for (const i in dataList) {
-          if (dataList.hasOwnProperty(i)) {
-            const element = dataList[i];
-            this.events.push(element);
-          }
-        }
-      });
-    });
-    return this.events;
-  }
+  // mapValues(values: CalendarEvent[]) {
+    
+  //   console.log(values)
+
+  //   values.forEach(data => {
+     
+  //     const date = data.mDate.format("YYYY-MM-DD")
+
+  //    this.service.getByDate(date).subscribe((dataList): EventI[] => {
+  //       for (const i in dataList) {
+  //         if (dataList.hasOwnProperty(i)) {
+  //           const element = dataList[i];
+  //           this.events.push(element);
+  //           return this.events;
+  //         }
+  //       }
+  //     });
+  //     console.log(this.events);
+  //       });
+  // }
+
+  // mapValues(dates: string[]){
+
+  //   dates.map((data) => {
+  //    this.service.getByDate(data).subscribe(dataList => {
+  //      if(dataList.length != undefined){
+  //     for (const i in dataList) {
+  //               if (dataList.hasOwnProperty(i)) {
+  //                 const element = dataList[i];
+  //                 this.events.push(element);
+  //               }
+  //             }
+  //           }
+  //     });
+  //   })
+
+  //   setTimeout(()=>{
+  //     console.log(this.events);
+  //   }, 3000)
+
+  // }
 }
