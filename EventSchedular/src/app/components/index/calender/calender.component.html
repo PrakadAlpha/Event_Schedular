@@ -20,10 +20,18 @@
         <ng-container *ngFor="let day of week">
           <div class="week-date enabled"
                (click)="selectDate(day)"
-               [ngClass]="{ today: day.today, selected: day.selected }">
+               [ngClass]="{ today: day.today, selected: day.selected, test: day.mDate.format('YYYY-MM-DD') == '2019-07-24'}">
             <span class="date-text">{{ day.mDate.date() }}</span>
-
-            <span class="badge">{{events.length}}</span>
+           <ng-container *ngFor="let event of events">
+            <span class="badge freeze" *ngIf="day.mDate.format('YYYY-MM-DD') == event.startDate" [ngClass]="{
+              'freeze':event.eventType === 'freeze',
+              'patchingQaDev':event.eventType === 'patchingQaDev',
+              'deployProd':event.eventType === 'deployProd',
+              'deployQa':event.eventType === 'deployQa',
+              'patchingProd':event.eventType === 'patchingProd',
+              'businessGoLive':event.eventType === 'businessGoLive'
+            }"></span>
+          </ng-container>
           </div>
         </ng-container>
       </div>
