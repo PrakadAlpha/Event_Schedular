@@ -9,7 +9,12 @@
       "request": "launch",
       "name": "ng serve",
       "url": "http://localhost:4200",
-      "webRoot": "${workspaceFolder}"
+      "webRoot": "${workspaceFolder}",
+      "breakOnLoad": true,
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "*": "${webRoot}/*"
+      }
     }
   ]
 }

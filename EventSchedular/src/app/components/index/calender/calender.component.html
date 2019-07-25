@@ -21,9 +21,9 @@
           <div class="week-date enabled"
                (click)="selectDate(day)"
                [ngClass]="{ today: day.today, selected: day.selected, test: day.mDate.format('YYYY-MM-DD') == '2019-07-24'}">
-            <span class="date-text">{{ day.mDate.date() }}</span>
+            <span class="date-text">{{ day.mDate.date()}}</span>
            <ng-container *ngFor="let event of events">
-            <span class="badge freeze" *ngIf="day.mDate.format('YYYY-MM-DD') == event.startDate" [ngClass]="{
+            <span class="badge" *ngIf="day.mDate.format('YYYY-MM-DD') == event.startDate" [ngClass]="{
               'freeze':event.eventType === 'freeze',
               'patchingQaDev':event.eventType === 'patchingQaDev',
               'deployProd':event.eventType === 'deployProd',
