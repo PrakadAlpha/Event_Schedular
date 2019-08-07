@@ -1,39 +1,61 @@
-<h3>Calender</h3><br>
-  <div class="month_nav">
-    <button class="nav_btn" (click)="prevMonth()"><i class="fa fas fa-angle-left fa-1x"></i></button>
-    <span class="month">{{currentDate | date: 'MMMM'}}</span>
-    <button class="nav_btn" (click)="nextMonth()"><i class="fa fas fa-angle-right fa-1x"></i></button>
-  </div>
-  <div class="year_nav">
-    <button class="nav_btn" (click)="prevYear()"><i class="fa fas fa-angle-left fa-1x"></i></button>
-    <span class="year">{{currentDate | date: 'y'}}</span>
-    <button class="nav_btn" (click)="nextYear()"><i class="fa fas fa-angle-right fa-1x"></i></button>
-  </div>
-  <div class="month-grid">
-    <div class="day-names">
-      <div *ngFor="let name of dayNames" class="day-name p9">
-        {{ name }}
-      </div>
+<br />
+<div class="month_nav">
+  <button class="nav_btn" (click)="prevMonth()">
+    <i class="fa fas fa-angle-left fa-1x"></i>
+  </button>
+  <span class="month"
+    >{{ currentDate | date: "MMMM" }}, {{ secondDate | date: "MMMM" }},
+    {{ thirdDate | date: "MMMM" }}</span
+  >
+  <button class="nav_btn" (click)="nextMonth()">
+    <i class="fa fas fa-angle-right fa-1x"></i>
+  </button>
+</div>
+<div class="year_nav">
+  <button class="nav_btn" (click)="prevYear()">
+    <i class="fa fas fa-angle-left fa-1x"></i>
+  </button>
+  <span class="year">{{ currentDate | date: "y" }}</span>
+  <button class="nav_btn" (click)="nextYear()">
+    <i class="fa fas fa-angle-right fa-1x"></i>
+  </button>
+</div>
+<div class="month-grid">
+  <div class="day-names">
+    <div *ngFor="let name of dayNames" class="day-name p9">
+      {{ name }}
     </div>
-    <div class="weeks">
-      <div *ngFor="let week of weeks" class="week">
-        <ng-container *ngFor="let day of week">
-          <div class="week-date enabled"
-               (click)="selectDate(day)"
-               [ngClass]="{ today: day.today, selected: day.selected, test: day.mDate.format('YYYY-MM-DD') == '2019-07-24'}">
-            <span class="date-text">{{ day.mDate.date()}}</span>
-           <ng-container *ngFor="let event of events">
-            <span class="badge" *ngIf="day.mDate.format('YYYY-MM-DD') == event.startDate" [ngClass]="{
-              'freeze':event.eventType === 'freeze',
-              'patchingQaDev':event.eventType === 'patchingQaDev',
-              'deployProd':event.eventType === 'deployProd',
-              'deployQa':event.eventType === 'deployQa',
-              'patchingProd':event.eventType === 'patchingProd',
-              'businessGoLive':event.eventType === 'businessGoLive'
-            }"></span>
+  </div>
+  <div class="weeks">
+    <div *ngFor="let week of weeks" class="week">
+      <ng-container *ngFor="let day of week">
+        <div
+          class="week-date enabled"
+          (click)="selectDate(day)"
+          [ngClass]="{
+            today: day.today,
+            selected: day.selected,
+            test: day.mDate.format('YYYY-MM-DD') == '2019-07-24'
+          }"
+        >
+          <span class="date-text">{{ day.mDate.date() }}</span>
+          <ng-container *ngFor="let event of event">
+            <span
+              class="badge"
+              id="eventBadge"
+              *ngIf="day.mDate.format('YYYY-MM-DD') == event.startDate"
+              [ngClass]="{
+                freeze: event.eventType === 'freeze',
+                patchingQaDev: event.eventType === 'patchingQaDev',
+                deployProd: event.eventType === 'deployProd',
+                deployQa: event.eventType === 'deployQa',
+                patchingProd: event.eventType === 'patchingProd',
+                businessGoLive: event.eventType === 'businessGoLive'
+              }"
+            ></span>
           </ng-container>
-          </div>
-        </ng-container>
-      </div>
+        </div>
+      </ng-container>
     </div>
   </div>
+</div>
