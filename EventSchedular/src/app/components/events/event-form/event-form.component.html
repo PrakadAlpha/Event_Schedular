@@ -1,80 +1,177 @@
-<div class="event_form">
-<mat-card class="card">
-    <mat-toolbar>
-        <span>{{service.form.controls['id'].value?"Edit Event":"Add Event"}}</span>
-        <span class="fill"></span>
-        <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>close</mat-icon></button>
-      </mat-toolbar>
-        <form (submit)="onSubmit()" class="form" [formGroup]="service.form">
-      <mat-grid-list cols="2" rowHeight="400px">
-        <mat-grid-tile>
-          <div class="tile_1">
-              <input type="hidden" formControlName="id">
-              <mat-form-field class="field" appearance = "outline">
-                  <mat-label>Application Name</mat-label>
-                  <mat-select name="appName" formControlName="appName" required>
-                    <mat-option *ngFor="let value of appName" [value]="value">{{value}}</mat-option>
-                  </mat-select>
-                  <mat-error>This field is mandatory.</mat-error>
-                </mat-form-field>
+<div class="e_form">
+  <mat-toolbar class="title_bar">
+    <span>{{
+      service.form.controls["id"].value ? "Edit Event" : "Add Event"
+    }}</span>
+    <span class="fill"></span>
+    <button
+      class="btn-dialog-close"
+      mat-stroked-button
+      (click)="onClose()"
+      tabIndex="-1"
+    >
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-toolbar>
+  <form (submit)="onSubmit()" class="form" [formGroup]="service.form">
+    <mat-grid-list cols="2" rowHeight="500px" class="grid_list">
+      <mat-grid-tile>
+        <div class="tile_1">
+          <input type="hidden" formControlName="id" />
+          <mat-form-field class="field" appearance="outline">
+            <mat-label>Application Name</mat-label>
+            <mat-select name="appName" formControlName="appName" required>
+              <mat-option *ngFor="let value of appName" [value]="value">{{
+                value
+              }}</mat-option>
+            </mat-select>
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field>
 
-                <mat-form-field class="field" appearance = "outline">
-                    <mat-label>Environment</mat-label>
-                    <mat-select name="environment"  formControlName="environment" required>
-                      <mat-option *ngFor="let value of environment" [value]="value">{{value}}</mat-option>
-                    </mat-select>
-                    <mat-error>This field is mandatory.</mat-error>
-                  </mat-form-field>
-              
-            <mat-form-field class="field" appearance = "outline">
-              <mat-label>Event Name</mat-label>
-              <mat-select name="eventName" formControlName="eventName" required>
-                <mat-option *ngFor="let value of eventName" [value]="value">{{value}}</mat-option>
-              </mat-select>
-              <mat-error>This field is mandatory.</mat-error>
-            </mat-form-field>
+          <mat-form-field class="field" appearance="outline">
+            <mat-label>Environment</mat-label>
+            <mat-select
+              name="environment"
+              formControlName="environment"
+              required
+            >
+              <mat-option *ngFor="let value of environment" [value]="value">{{
+                value
+              }}</mat-option>
+            </mat-select>
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field>
 
-            <mat-form-field class="field" appearance = "outline">
-                <mat-label>Event Type</mat-label>
-                <mat-select name="eventType" formControlName="eventType" required>
-                  <mat-option *ngFor="let value of eventType" [value]="value">{{value}}</mat-option>
-                </mat-select>
-                <mat-error>This field is mandatory.</mat-error>
-              </mat-form-field>
-            </div>
-            </mat-grid-tile>
-            <mat-grid-tile >
-              <div class="tile_2">
-                <mat-form-field class="field" appearance = "outline">
-                    <mat-label>Event Details</mat-label>
-                    <textarea name="eventDetails" matInput formControlName="eventDetails" required></textarea>
-                    <mat-error *ngIf="service.form.controls['eventDetails'].errors?.required">This field is mandatory.</mat-error>
-                    <mat-error *ngIf="service.form.controls['eventDetails'].errors?.minlength">Minimum 8 charactors needed.</mat-error>
-                    <mat-hint>Minimum 8 Characters.</mat-hint>
-                 </mat-form-field>
-                  <mat-form-field class="field" appearance = "outline">
-                      <input matInput [matDatepicker]="starDate" placeholder="Start Date" [min]="minDate" formControlName="startDate" required>
-                      <mat-datepicker-toggle matSuffix [for]="starDate"></mat-datepicker-toggle>
-                      <mat-datepicker #starDate></mat-datepicker>
-                      <mat-error *ngIf="service.form.controls['startDate'].errors?.required">Enter a Valid Date.</mat-error>
-                    </mat-form-field >
-                      <mat-form-field class="field" appearance = "outline">
-                        <input matInput [matDatepicker]="enDate" placeholder="End Date" formControlName="endDate" required>
-                        <mat-datepicker-toggle matSuffix [for]="enDate"></mat-datepicker-toggle>
-                        <mat-datepicker #enDate></mat-datepicker>   
-                        <mat-error *ngIf="service.form.controls['endDate'].errors?.required">Enter a Valid Date.</mat-error>
-                      </mat-form-field>
-                      <div class="button-row">
-                          <button mat-button type="submit" 
-                      class="mat-raised-button mat-primary" 
-                      [disabled]="!service.form.valid">Submit</button>
-                      <button mat-button type="reset" (click)="onClear()" class="mat-raised-button">Clear</button>
-                      </div>
-              </div>
+          <mat-form-field class="field" appearance="outline">
+            <mat-label>Event Name</mat-label>
+            <mat-select name="eventName" formControlName="eventName" required>
+              <mat-option *ngFor="let value of eventName" [value]="value">{{
+                value
+              }}</mat-option>
+            </mat-select>
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field>
 
-                  </mat-grid-tile>
-      </mat-grid-list>
+          <mat-form-field class="field" appearance="outline">
+            <mat-label>Level</mat-label>
+            <mat-select name="level" formControlName="level" required>
+              <mat-option *ngFor="let value of level" [value]="value">{{
+                value
+              }}</mat-option>
+            </mat-select>
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field>
 
-          </form>
-</mat-card>
+          <mat-form-field class="field" appearance="outline">
+            <mat-label>Event Type</mat-label>
+            <mat-select name="eventType" formControlName="eventType" required>
+              <mat-option *ngFor="let value of eventType" [value]="value">{{
+                value
+              }}</mat-option>
+            </mat-select>
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <div class="tile_2">
+          <mat-form-field class="field" appearance="outline">
+            <mat-label>Event Details</mat-label>
+            <textarea
+              name="eventDetails"
+              matInput
+              formControlName="eventDetails"
+              required
+            ></textarea>
+            <mat-error
+              *ngIf="service.form.controls['eventDetails'].errors?.required"
+              >This field is mandatory.</mat-error
+            >
+            <mat-error
+              *ngIf="service.form.controls['eventDetails'].errors?.minlength"
+              >Minimum 8 charactors needed.</mat-error
+            >
+            <mat-hint>Minimum 8 Characters.</mat-hint>
+          </mat-form-field>
+          <mat-form-field class="field" appearance="outline">
+            <input
+              matInput
+              [matDatepicker]="starDate"
+              placeholder="Start Date"
+              [min]="minDate"
+              formControlName="startDate"
+              required
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="starDate"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #starDate></mat-datepicker>
+            <mat-error
+              *ngIf="service.form.controls['startDate'].errors?.required"
+              >Enter a Valid Date.</mat-error
+            >
+          </mat-form-field>
+          <mat-form-field class="field" appearance="outline">
+            <input
+              matInput
+              [matDatepicker]="enDate"
+              placeholder="End Date"
+              formControlName="endDate"
+              required
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="enDate"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #enDate></mat-datepicker>
+            <mat-error *ngIf="service.form.controls['endDate'].errors?.required"
+              >Enter a Valid Date.</mat-error
+            >
+          </mat-form-field>
+
+          <mat-form-field class="field" appearance="outline">
+            <mat-label>Start Time</mat-label>
+            <input
+              matInput
+              type="datetime-local"
+              name="startTime"
+              formControlName="startTime"
+            />
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="field" appearance="outline">
+            <mat-label>End Time</mat-label>
+            <input
+              matInput
+              type="datetime-local"
+              name="endTime"
+              formControlName="endTime"
+            />
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field>
+
+          <div class="button-row">
+            <button
+              mat-button
+              type="submit"
+              class="mat-raised-button mat-primary"
+              [disabled]="!service.form.valid"
+            >
+              Submit
+            </button>
+            <button
+              mat-button
+              type="reset"
+              (click)="onClear()"
+              class="mat-raised-button"
+            >
+              Clear
+            </button>
+          </div>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </form>
 </div>
