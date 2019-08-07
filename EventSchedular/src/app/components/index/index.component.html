@@ -1,6 +1,51 @@
 <div class="index_container">
-  <div class="calender">
-    <app-calender></app-calender>
+  <div class="badge-list">
+    <div>
+      <span class="badge freeze"></span>
+      <span>Freeze</span>
+    </div>
+    <div>
+      <span class="badge deployProd"></span>
+      <span>Deploy Prod</span>
+    </div>
+    <div>
+      <span class="badge deployQa"></span>
+      <span>Deploy QA</span>
+    </div>
+    <div>
+      <span class="badge patchingQaDev"></span>
+      <span>Patching Qa/Dev</span>
+    </div>
+    <div>
+      <span class="badge patchingProd"></span>
+      <span>Patching Prod</span>
+    </div>
+    <div>
+      <span class="badge businessGoLive"></span>
+      <span>Business Go live</span>
+    </div>
   </div>
-  <div class="details"></div>
+  <div class="calender">
+    <app-calender [dropList] = "dropApp"></app-calender>
+  </div>
+  <div class="details">
+    <div class="drag-container"
+    cdkDropList
+    #dragList = "cdkDropList"
+    (cdkDropListDropped) = "drop($event)"
+    [cdkDropListConnectedTo] = "dropList"
+    [cdkDropListData] = "dragApp">
+      <div cdkDrag  *ngFor="let list of dragApp" class="list-item">{{list}}</div>
+    </div>
+    <div 
+    class="drop-container"
+    cdkDropList
+    #dropList = "cdkDropList"
+    (cdkDropListDropped) = "drop($event)"
+    [cdkDropListConnectedTo] = "dragList"
+    [cdkDropListData] = "dropApp"
+    >      
+      <div cdkDrag *ngFor="let list of dropApp" class="list-item">{{list}}</div>
+    </div>
+  </div>
 </div>
