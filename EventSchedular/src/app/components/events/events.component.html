@@ -1,177 +1,167 @@
-<div class="e_form">
-  <mat-toolbar class="title_bar">
-    <span>{{
-      service.form.controls["id"].value ? "Edit Event" : "Add Event"
-    }}</span>
-    <span class="fill"></span>
-    <button
-      class="btn-dialog-close"
-      mat-stroked-button
-      (click)="onClose()"
-      tabIndex="-1"
-    >
-      <mat-icon>close</mat-icon>
+<div class="event_form">
+  <div class="search-div">
+    <button class="button" mat-raised-button (click)="onClick()">
+      <mat-icon class="mat-18">add</mat-icon> Add Event
     </button>
-  </mat-toolbar>
-  <form (submit)="onSubmit()" class="form" [formGroup]="service.form">
-    <mat-grid-list cols="2" rowHeight="500px" class="grid_list">
-      <mat-grid-tile>
-        <div class="tile_1">
-          <input type="hidden" formControlName="id" />
-          <mat-form-field class="field" appearance="outline">
-            <mat-label>Application Name</mat-label>
-            <mat-select name="appName" formControlName="appName" required>
-              <mat-option *ngFor="let value of appName" [value]="value">{{
-                value
-              }}</mat-option>
-            </mat-select>
-            <mat-error>This field is mandatory.</mat-error>
-          </mat-form-field>
+    <mat-form-field class="search-bar" appearance="outline">
+      <input
+        matInput
+        [(ngModel)]="searchKey"
+        placeholder="Search"
+        autocomplete="off"
+        (keyup)="applyFilter()"
+      />
+      <button
+        mat-button
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        *ngIf="searchKey"
+        (click)="onSearchClear()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
 
-          <mat-form-field class="field" appearance="outline">
-            <mat-label>Environment</mat-label>
-            <mat-select
-              name="environment"
-              formControlName="environment"
-              required
-            >
-              <mat-option *ngFor="let value of environment" [value]="value">{{
-                value
-              }}</mat-option>
-            </mat-select>
-            <mat-error>This field is mandatory.</mat-error>
-          </mat-form-field>
+  <div class="mat-elevation-z8 table">
+    <mat-table [dataSource]="datasource" matSort>
+      <ng-container matColumnDef="appName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >Application Name</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element"> {{ element.appName }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="environment">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >Environment</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element">
+          {{ element.environment }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="eventName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >Event Name</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element"> {{ element.eventName }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="eventType">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >Event Type</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element"> {{ element.eventType }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="startDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >Start Date</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element">
+          {{ element.startDate | date: "MM/dd/yy" }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="endDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >End Date</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element">
+          {{ element.endDate | date: "MM/dd/yy" }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="startTime">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >Start Time</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element"> {{ element.startTime }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="endTime">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >End Time</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element"> {{ element.endTime }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="level">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >Level</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element"> {{ element.level }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <button mat-icon-button (click)="onEdit(row)">
+            <mat-icon class="mat-18">edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="delete(row.id)" color="warn">
+            <mat-icon class="mat-18">delete</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="loading">
+        <mat-footer-cell *matFooterCellDef colspan="8" class="loading">
+          Loading Data...
+        </mat-footer-cell>
+      </ng-container>
+      <ng-container matColumnDef="noData">
+        <mat-footer-cell *matFooterCellDef colspan="8" class="noData">
+          No Data.
+        </mat-footer-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      <mat-footer-row
+        *matFooterRowDef="['loading']"
+        [ngClass]="{ hide: datasource != null }"
+      ></mat-footer-row>
+      <mat-footer-row
+        *matFooterRowDef="['noData']"
+        [ngClass]="{
+          hide: !(datasource != null && datasource.data.length == 0)
+        }"
+      ></mat-footer-row>
+    </mat-table>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      [pageSize]="5"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
 
-          <mat-form-field class="field" appearance="outline">
-            <mat-label>Event Name</mat-label>
-            <mat-select name="eventName" formControlName="eventName" required>
-              <mat-option *ngFor="let value of eventName" [value]="value">{{
-                value
-              }}</mat-option>
-            </mat-select>
-            <mat-error>This field is mandatory.</mat-error>
-          </mat-form-field>
-
-          <mat-form-field class="field" appearance="outline">
-            <mat-label>Level</mat-label>
-            <mat-select name="level" formControlName="level" required>
-              <mat-option *ngFor="let value of level" [value]="value">{{
-                value
-              }}</mat-option>
-            </mat-select>
-            <mat-error>This field is mandatory.</mat-error>
-          </mat-form-field>
-
-          <mat-form-field class="field" appearance="outline">
-            <mat-label>Event Type</mat-label>
-            <mat-select name="eventType" formControlName="eventType" required>
-              <mat-option *ngFor="let value of eventType" [value]="value">{{
-                value
-              }}</mat-option>
-            </mat-select>
-            <mat-error>This field is mandatory.</mat-error>
-          </mat-form-field>
-        </div>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <div class="tile_2">
-          <mat-form-field class="field" appearance="outline">
-            <mat-label>Event Details</mat-label>
-            <textarea
-              name="eventDetails"
-              matInput
-              formControlName="eventDetails"
-              required
-            ></textarea>
-            <mat-error
-              *ngIf="service.form.controls['eventDetails'].errors?.required"
-              >This field is mandatory.</mat-error
-            >
-            <mat-error
-              *ngIf="service.form.controls['eventDetails'].errors?.minlength"
-              >Minimum 8 charactors needed.</mat-error
-            >
-            <mat-hint>Minimum 8 Characters.</mat-hint>
-          </mat-form-field>
-          <mat-form-field class="field" appearance="outline">
-            <input
-              matInput
-              [matDatepicker]="starDate"
-              placeholder="Start Date"
-              [min]="minDate"
-              formControlName="startDate"
-              required
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="starDate"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #starDate></mat-datepicker>
-            <mat-error
-              *ngIf="service.form.controls['startDate'].errors?.required"
-              >Enter a Valid Date.</mat-error
-            >
-          </mat-form-field>
-          <mat-form-field class="field" appearance="outline">
-            <input
-              matInput
-              [matDatepicker]="enDate"
-              placeholder="End Date"
-              formControlName="endDate"
-              required
-            />
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="enDate"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #enDate></mat-datepicker>
-            <mat-error *ngIf="service.form.controls['endDate'].errors?.required"
-              >Enter a Valid Date.</mat-error
-            >
-          </mat-form-field>
-
-          <mat-form-field class="field" appearance="outline">
-            <mat-label>Start Time</mat-label>
-            <input
-              matInput
-              type="datetime-local"
-              name="startTime"
-              formControlName="startTime"
-            />
-            <mat-error>This field is mandatory.</mat-error>
-          </mat-form-field>
-
-          <mat-form-field class="field" appearance="outline">
-            <mat-label>End Time</mat-label>
-            <input
-              matInput
-              type="datetime-local"
-              name="endTime"
-              formControlName="endTime"
-            />
-            <mat-error>This field is mandatory.</mat-error>
-          </mat-form-field>
-
-          <div class="button-row">
-            <button
-              mat-button
-              type="submit"
-              class="mat-raised-button mat-primary"
-              [disabled]="!service.form.valid"
-            >
-              Submit
-            </button>
-            <button
-              mat-button
-              type="reset"
-              (click)="onClear()"
-              class="mat-raised-button"
-            >
-              Clear
-            </button>
-          </div>
-        </div>
-      </mat-grid-tile>
-    </mat-grid-list>
-  </form>
+  <div class="range">
+    <h3>Select Date Range</h3>
+    <form (submit)="genPdf()" method="GET" class="form-group">
+      <mat-form-field class="field" appearance="outline">
+        <input
+          matInput
+          [matDatepicker]="starDate"
+          placeholder="Start Date"
+          [(ngModel)]="sDate"
+          class="form-control"
+          name="sDate"
+          required
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="starDate"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #starDate></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="field" appearance="outline">
+        <input
+          matInput
+          [matDatepicker]="enDate"
+          placeholder="End Date"
+          [(ngModel)]="eDate"
+          class="form-control"
+          name="eDate"
+          required
+        />
+        <mat-datepicker-toggle matSuffix [for]="enDate"></mat-datepicker-toggle>
+        <mat-datepicker #enDate></mat-datepicker>
+      </mat-form-field>
+      <button mat-button type="submit" class="mat-raised-button">
+        Download as PDF
+      </button>
+    </form>
+  </div>
 </div>
