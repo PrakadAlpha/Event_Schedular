@@ -1,0 +1,121 @@
+<div class="event_form">
+  <div class="search-div">
+    <mat-form-field class="search-bar" appearance="outline">
+      <input
+        matInput
+        [(ngModel)]="searchKey"
+        placeholder="Search"
+        autocomplete="off"
+        (keyup)="applyFilter()"
+      />
+      <button
+        mat-button
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        *ngIf="searchKey"
+        (click)="onSearchClear()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+  </div>
+
+  <div class="mat-elevation-z8 table">
+    <mat-table [dataSource]="datasource" matSort>
+      <ng-container matColumnDef="appName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >Application Name</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element"> {{ element.appName }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="environment">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >Environment</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element">
+          {{ element.environment }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="eventName">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >Event Name</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element"> {{ element.eventName }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="eventType">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >Event Type</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element"> {{ element.eventType }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="eventDetails">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >Event Details</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element"> {{ element.eventDetails }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="startDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >Start Date</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element">
+          {{ element.startDate | date: "MM/dd/yy" }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="endDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >End Date</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element">
+          {{ element.endDate | date: "MM/dd/yy" }}
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="startTime">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >Start Time</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element"> {{ element.startTime }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="endTime">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >End Time</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element"> {{ element.endTime }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="level">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+          >Level</mat-header-cell
+        >
+        <mat-cell *matCellDef="let element"> {{ element.level }} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="loading">
+        <mat-footer-cell *matFooterCellDef colspan="8" class="loading">
+          Loading Data...
+        </mat-footer-cell>
+      </ng-container>
+      <ng-container matColumnDef="noData">
+        <mat-footer-cell *matFooterCellDef colspan="8" class="noData">
+          No Data.
+        </mat-footer-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      <mat-footer-row
+        *matFooterRowDef="['loading']"
+        [ngClass]="{ hide: datasource != null }"
+      ></mat-footer-row>
+      <mat-footer-row
+        *matFooterRowDef="['noData']"
+        [ngClass]="{
+          hide: !(datasource != null && datasource.data.length == 0)
+        }"
+      ></mat-footer-row>
+    </mat-table>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 25, 100]"
+      [pageSize]="10"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</div>
