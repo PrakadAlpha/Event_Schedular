@@ -1,34 +1,46 @@
-
-.e_form
-  display: grid
-  justify-content: center
-  align-items: center
+.event_form
+  display: flex
+  flex-direction: column
   margin-top: 10px
-  width: 60em
-  height: 35em
-  overflow: hidden
+  width: 90%
+  position: absolute
+  left: 75px
 
-.form
-  width: 60em
-  height: 35em
-
-
-.tile_1
-  width: 300px
-  height: 465px
-
-.tile_2
-  width: 300px
-
-.field
-  width: 100%
-  font-size: 14px
-
-h2
-  text-align: center
-  
-button
+.search-div
   margin: 5px
-  
-.button-row
-  margin-bottom: 20px
+
+.table
+  margin-top: 10px
+
+.search-bar
+  font-size: 13px
+  width: 85%
+  border-radius: 5px
+  height: 30px
+  margin-left: 10px
+
+.button
+  width: 14%
+
+
+::ng-deep .search-form-field div.mat-form-field-underline
+  display: none
+
+::ng-deep .search-bar div.mat-form-field-infix
+  border-top: 0px
+
+::ng-deep .search-bar div.mat-form-field-wrapper
+  padding-bottom: 0px
+  background-color: #eee
+
+
+
+.range
+  margin-top: 10px
+  padding: 5px
+  h3
+    margin: 10px
+    padding: 5px
+  .field
+    padding: 10px
+    font-size: 14px
