@@ -1,17 +1,28 @@
-<header>
+<!-- <header>
+</header> -->
+<mat-toolbar
+  *ngIf="loginService.isUserLoggedIn()"
+  class="toolbar"
+  color="primary"
+>  
+  <a mat-button routerLink="/home">Home</a>
+  <a mat-button routerLink="/index">Dashboard</a>
   <h1>Event Schedular Application</h1>
-</header>
-<mat-toolbar *ngIf="loginService.isUserLoggedIn()" class="toolbar" color="primary">
- <a mat-button routerLink="/index">Dashboard</a>
- <span class="fill"></span>
- <div>
-  <a mat-button *ngIf="loginService.isUserLoggedIn()" routerLink="/events">Manage Events</a>
-  <a mat-button *ngIf="loginService.isUserLoggedIn()" routerLink="/logout">Logout</a>
-  <a mat-button *ngIf="!loginService.isUserLoggedIn()" routerLink="/login">Login</a>
- </div>
+  <span class="fill"></span>
+  <div>
+    <a mat-button *ngIf="loginService.isUserLoggedIn()" routerLink="/events"
+      >Manage Events</a
+    >
+    <a mat-button *ngIf="loginService.isUserLoggedIn()" routerLink="/logout"
+      >Logout</a
+    >
+    <a mat-button *ngIf="!loginService.isUserLoggedIn()" routerLink="/login"
+      >Login</a
+    >
+  </div>
 </mat-toolbar>
-<div class="container">
-<router-outlet></router-outlet>
+<div class="outlet">
+  <router-outlet></router-outlet>
 </div>
 <!-- <footer>
  <p>Event Schedular <i class="far fa-copyright"></i> 2019. All rights Reserved</p>
