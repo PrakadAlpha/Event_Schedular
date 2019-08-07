@@ -1,117 +1,86 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { EventsService } from 'src/app/services/events.service';
-import { Events } from 'src/app/modals/Events';
-import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogConfig } from '@angular/material';
-import { EventFormComponent } from './event-form/event-form.component';
-import { Observable } from 'rxjs';
-import { DatePipe } from '@angular/common';
+import { Component, OnInit } from "@angular/core";
+import { Events } from "src/app/modals/Events";
+import { EventsService } from "src/app/services/events.service";
+import { FormBuilder } from "@angular/forms";
+import { MatDialogRef } from "@angular/material";
+import { EventsComponent } from "../events.component";
+import { TimepickerModule } from "ngx-bootstrap/timepicker";
 
 @Component({
-  selector: 'app-events',
-  templateUrl: './events.component.html',
-  styleUrls: ['./events.component.sass']
+  selector: "app-event-form",
+  templateUrl: "./event-form.component.html",
+  styleUrls: ["./event-form.component.sass"]
 })
-export class EventsComponent implements OnInit {
-
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-
-  searchKey: string;
-
+export class EventFormComponent implements OnInit {
   event: Events = new Events();
-  
-  datasource : MatTableDataSource<any>;
 
-  sDate: Date;
-  eDate: Date;
+  submitted = false;
 
-  events: Observable<Events>;
+  minDate = new Date();
 
+  appName = ["PGP", "WEBCASH", "BRIDGER", "EM", "SWIFT", "TRAX"];
+  environment = ["Prod", "Dev", "Qa"];
+  eventName = ["Stable Operations", "Development Projects", "Project Pipeline"];
+  eventType = [
+    "Deploy QA",
+    "Patching Prod",
+    "Patching QA/Dev",
+    "Freeze",
+    "Deploy Prod",
+    "Business Go Live"
+  ];
+  level = ["L2", "L3"];
 
-  displayedColumns: string[] = ['id', 'appName', 'environment', 'eventName', 'eventType', 'startDate', 'endDate', 'actions'];
+  constructor(
+    public service: EventsService,
+    private fb: FormBuilder,
+    private dialogRef: MatDialogRef<EventsComponent>
+  ) {}
 
-  constructor(private service: EventsService, private dialog: MatDialog, private DatePipe: DatePipe) {
-  }
+  ngOnInit() {}
 
+  //Subscribe and send data to service
+  save() {
+    console.log("in Save");
 
-  load(){
-    location.reload();
-  }
-
-  ngOnInit() {  
-    this.service.listEvent().subscribe(data => {
-      let listData = data.map(list =>{
-        return list
-      });
-      this.datasource = new MatTableDataSource(listData);
-      this.datasource.sort = this.sort; 
-      this.datasource.paginator = this.paginator;
-     },
-  error => console.log(error)); 
-    }  
-
- 
-                    
-
-  onEdit(row){
-    this.service.populateForm(row);
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = "auto";
-    this.dialog.open(EventFormComponent, dialogConfig);
-  }
-
-  delete(id){
-    if(confirm('Are you sure to delete this record ?')){
-      this.service.deleteEvent(id)
-      .subscribe(data => {
-        console.log(data)
-         this.ngOnInit()
+    this.service.addEvent(this.service.form.value).subscribe(
+      data => {
+        console.log(data);
       },
-      error => console.log(error));
-    }
-  }
- 
-
-  onSearchClear(){
-    this.searchKey="";
-    this.applyFilter();
+      error => console.log(error)
+    );
+    this.event = new Events();
   }
 
-  applyFilter(){
-    this.datasource.filter = this.searchKey.trim().toLowerCase();
+  update() {
+    this.service.updateEvent(this.service.form.value).subscribe(
+      data => {
+        console.log(data);
+      },
+      error => console.log(error)
+    );
   }
 
-  onClick(){
-
-    const dialogConfig = new MatDialogConfig();
-
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = "auto";
-    this.dialog.open(EventFormComponent, dialogConfig);
+  //Call save method after submit
+  onSubmit() {
+    if (!this.service.form.get("id").value) {
+      this.save();
+    } else this.update();
+    this.service.form.reset();
+    this.service.initializeFormGroup();
+    this.onClose();
+    // setTimeout(() =>{
+    //   location.reload();
+    // }, 100)
   }
 
-  genPdf(){
-
-    let startDate = this.DatePipe.transform(this.sDate, "yyyy-MM-dd")
-    let endDate = this.DatePipe.transform(this.eDate, "yyyy-MM-dd")    
-
-    this.service.getPdf(startDate, endDate).subscribe(data => {
-
-      let nBlob = new Blob([data], { type: "application/pdf" });
-
-      let downloadURL = window.URL.createObjectURL(nBlob);
-      let link = document.createElement('a');
-      link.href = downloadURL;
-      link.download = "Event Report.pdf";
-      link.click();
-
-      console.log("pdf Downloaded");
-      
-    },
-    error => console.log(error));
+  onClose() {
+    this.service.form.reset();
+    this.service.initializeFormGroup();
+    this.dialogRef.close();
   }
 
+  onClear() {
+    this.service.form.reset();
+  }
 }
