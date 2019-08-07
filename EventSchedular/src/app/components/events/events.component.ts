@@ -1,86 +1,132 @@
-import { Component, OnInit } from "@angular/core";
-import { Events } from "src/app/modals/Events";
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from "@angular/core";
 import { EventsService } from "src/app/services/events.service";
-import { FormBuilder } from "@angular/forms";
-import { MatDialogRef } from "@angular/material";
-import { EventsComponent } from "../events.component";
-import { TimepickerModule } from "ngx-bootstrap/timepicker";
+import { Events } from "src/app/modals/Events";
+import {
+  MatTableDataSource,
+  MatSort,
+  MatPaginator,
+  MatDialog,
+  MatDialogConfig
+} from "@angular/material";
+import { EventFormComponent } from "./event-form/event-form.component";
+import { Observable } from "rxjs";
+import { DatePipe, Time } from "@angular/common";
 
 @Component({
-  selector: "app-event-form",
-  templateUrl: "./event-form.component.html",
-  styleUrls: ["./event-form.component.sass"]
+  selector: "app-events",
+  templateUrl: "./events.component.html",
+  styleUrls: ["./events.component.sass"]
 })
-export class EventFormComponent implements OnInit {
+export class EventsComponent implements OnInit {
+  
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  searchKey: string;
+
   event: Events = new Events();
 
-  submitted = false;
+  datasource: MatTableDataSource<any>;
 
-  minDate = new Date();
+  sDate: Date;
+  eDate: Date;
 
-  appName = ["PGP", "WEBCASH", "BRIDGER", "EM", "SWIFT", "TRAX"];
-  environment = ["Prod", "Dev", "Qa"];
-  eventName = ["Stable Operations", "Development Projects", "Project Pipeline"];
-  eventType = [
-    "Deploy QA",
-    "Patching Prod",
-    "Patching QA/Dev",
-    "Freeze",
-    "Deploy Prod",
-    "Business Go Live"
+  events: Observable<Events>;
+
+  displayedColumns: string[] = [
+    "appName",
+    "environment",
+    "eventName",
+    "eventType",
+    "startDate",
+    "endDate",
+    "startTime",
+    "endTime",
+    "level",
+    "actions"
   ];
-  level = ["L2", "L3"];
 
   constructor(
-    public service: EventsService,
-    private fb: FormBuilder,
-    private dialogRef: MatDialogRef<EventsComponent>
+    private service: EventsService,
+    private dialog: MatDialog,
+    private DatePipe: DatePipe
   ) {}
 
-  ngOnInit() {}
-
-  //Subscribe and send data to service
-  save() {
-    console.log("in Save");
-
-    this.service.addEvent(this.service.form.value).subscribe(
-      data => {
-        console.log(data);
-      },
-      error => console.log(error)
-    );
-    this.event = new Events();
+  load() {
+    location.reload();
   }
 
-  update() {
-    this.service.updateEvent(this.service.form.value).subscribe(
+  ngOnInit() {
+    this.service.listEvent().subscribe(
       data => {
-        console.log(data);
+        let listData = data.map((list: any) => {
+          return list;
+        });
+        this.datasource = new MatTableDataSource(listData);
+        this.datasource.sort = this.sort;
+        this.datasource.paginator = this.paginator;
       },
       error => console.log(error)
     );
   }
 
-  //Call save method after submit
-  onSubmit() {
-    if (!this.service.form.get("id").value) {
-      this.save();
-    } else this.update();
-    this.service.form.reset();
-    this.service.initializeFormGroup();
-    this.onClose();
-    // setTimeout(() =>{
-    //   location.reload();
-    // }, 100)
+  onEdit(row: Events) {
+    console.log(row);
+    this.service.populateForm(row);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "auto";
+    this.dialog.open(EventFormComponent, dialogConfig);
   }
 
-  onClose() {
-    this.service.form.reset();
-    this.service.initializeFormGroup();
-    this.dialogRef.close();
+  delete(id: number) {
+    if (confirm("Are you sure to delete this record ?")) {
+      this.service.deleteEvent(id).subscribe(
+        data => {
+          console.log(data);
+          this.ngOnInit();
+        },
+        error => console.log(error)
+      );
+    }
   }
 
-  onClear() {
-    this.service.form.reset();
+  onSearchClear() {
+    this.searchKey = "";
+    this.applyFilter();
+  }
+
+  applyFilter() {
+    this.datasource.filter = this.searchKey.trim().toLowerCase();
+  }
+
+  onClick() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "auto";
+    this.dialog.open(EventFormComponent, dialogConfig);
+  }
+
+  genPdf() {
+    let startDate = this.DatePipe.transform(this.sDate, "yyyy-MM-dd");
+    let endDate = this.DatePipe.transform(this.eDate, "yyyy-MM-dd");
+
+    this.service.getPdf(startDate, endDate).subscribe(
+      data => {
+        let nBlob = new Blob([data], { type: "application/pdf" });
+
+        let downloadURL = window.URL.createObjectURL(nBlob);
+        let link = document.createElement("a");
+        link.href = downloadURL;
+        link.download = "Event Report.pdf";
+        link.click();
+
+        console.log("pdf Downloaded");
+      },
+      error => console.log(error)
+    );
   }
 }
