@@ -16,7 +16,7 @@ import { CalenderComponent } from "./calender/calender.component";
   styleUrls: ["./index.component.sass"]
 })
 export class IndexComponent implements OnInit {
-  @ViewChild(CalenderComponent)
+  @ViewChild(CalenderComponent, {static: false})
   calenderComp: CalenderComponent;
 
   dragApp = ["PGP", "WEBCASH", "BRIDGER", "EM", "SWIFT", "TRAX"];

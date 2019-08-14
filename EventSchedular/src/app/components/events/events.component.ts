@@ -19,8 +19,8 @@ import { DatePipe, Time } from "@angular/common";
 })
 export class EventsComponent implements OnInit {
   
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
   searchKey: string;
 

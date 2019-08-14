@@ -11,8 +11,8 @@ import { EventsService } from 'src/app/services/events.service';
 export class HomepageComponent implements OnInit {
 
 
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
   searchKey: string;
 

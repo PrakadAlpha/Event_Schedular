@@ -15,6 +15,10 @@ import { MaterialModule } from './material/material.module';
 import { EventFormComponent } from './components/events/event-form/event-form.component';
 import { DatePipe } from '@angular/common';
 import { CalenderComponent } from './components/index/calender/calender.component';
+import { HomepageComponent } from './components/homepage/homepage.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatProgressSpinnerModule } from '@angular/material';
+import { DateDetailComponent } from './components/index/calender/date-detail/date-detail.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +29,9 @@ import { CalenderComponent } from './components/index/calender/calender.componen
     LoginComponent,
     LogoutComponent,
     EventFormComponent,
-    CalenderComponent
+    CalenderComponent,
+    HomepageComponent,
+    DateDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -33,10 +39,12 @@ import { CalenderComponent } from './components/index/calender/calender.componen
     FormsModule, 
     HttpClientModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    DragDropModule,
+    MatProgressSpinnerModule
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],
-  entryComponents: [EventFormComponent]
+  entryComponents: [EventFormComponent, DateDetailComponent]
 })
 export class AppModule { }

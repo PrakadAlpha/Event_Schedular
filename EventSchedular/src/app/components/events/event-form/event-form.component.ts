@@ -4,7 +4,6 @@ import { EventsService } from "src/app/services/events.service";
 import { FormBuilder } from "@angular/forms";
 import { MatDialogRef } from "@angular/material";
 import { EventsComponent } from "../events.component";
-import { TimepickerModule } from "ngx-bootstrap/timepicker";
 
 @Component({
   selector: "app-event-form",

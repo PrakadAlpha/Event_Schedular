@@ -3,6 +3,8 @@ import * as moment from "moment";
 import * as _ from "lodash";
 import { EventsService } from "src/app/services/events.service";
 import { DatePipe, Time } from "@angular/common";
+import { MatDialogConfig, MatDialog } from '@angular/material';
+import { DateDetailComponent } from './date-detail/date-detail.component';
 
 export interface CalendarEvent {
   mDate?: moment.Moment;
@@ -39,12 +41,14 @@ export class CalenderComponent implements OnInit {
   events: EventI[] = [];
   event: EventI[] = [];
   dates: string[];
+  spinner = false;
+  passDate: CalendarEvent;
 
   @Input() dropList: string[];
   @Input() selectedDates: CalendarEvent[] = [];
   @Output() onSelectDate = new EventEmitter<CalendarEvent>();
 
-  constructor(private service: EventsService, private DatePipe: DatePipe) {}
+  constructor(private service: EventsService, private dialog: MatDialog, private DatePipe: DatePipe) {}
 
   ngOnInit() {
     this.generateCalender();
@@ -83,7 +87,13 @@ export class CalenderComponent implements OnInit {
   }
 
   selectDate(date: CalendarEvent): void {
-    this.onSelectDate.emit(date);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "auto";
+    dialogConfig.data = date;
+    this.dialog.open(DateDetailComponent, dialogConfig);
+    
   }
 
   isSelected(date: moment.Moment): boolean {
@@ -98,9 +108,11 @@ export class CalenderComponent implements OnInit {
     return moment(date).isSame(this.currentDate, "month");
   }
 
+
   //Generator
 
   generateCalender() {
+    this.spinner = true;
     const dates = this.fillDates(this.currentDate);
     const dateArr = dates.map(data => {
       return data.mDate.format("YYYY-MM-DD");
@@ -117,8 +129,8 @@ export class CalenderComponent implements OnInit {
 
       this.event = this.events.filter(i => {
         return this.dropList.includes(i.appName);
-      });
-      console.log(this.event);
+      }); 
+      this.spinner = false;
     };
 
     getData();
@@ -171,59 +183,4 @@ export class CalenderComponent implements OnInit {
     );
   }
 
-  // fillValues(dates: CalendarEvent[]) {
-  //   const mappedValues = async () => {
-  //     const fetchedVal = await this.mapValues(dates);
-
-  //     // for (const i in fetchedVal) {
-  //     //   if (fetchedVal.hasOwnProperty(i)) {
-  //     //    const element = fetchedVal[i];
-  //     //      this.events.push(element);
-  //     //    }
-  //     //  }
-
-  //     console.log(fetchedVal);
-
-  //     fetchedVal.map(
-  //       (values): EventI => {
-  //         console.log(values.appName);
-
-  //         return {
-  //           id: values.id,
-  //           appName: values.appName,
-  //           environment: values.environment,
-  //           startDate: values.startDate,
-  //           endDate: values.endDate,
-  //           eventName: values.eventName,
-  //           eventType: values.eventType,
-  //           eventDetails: values.eventDetails,
-  //           startTime: values.startTime,
-  //           endTime: values.endTime,
-  //           level: values.level
-  //         };
-  //       }
-  //     );
-  //   };
-
-  //   mappedValues();
-
-  //   console.log("Main line");
-  // }
-
-  // mapValues(values: CalendarEvent[]) {
-  //   console.log(values)
-  //   values.forEach(data => {
-  //     const date = data.mDate.format("YYYY-MM-DD")
-  //    this.service.getByDate(date).subscribe((dataList): EventI[] => {
-  //       for (const i in dataList) {
-  //         if (dataList.hasOwnProperty(i)) {
-  //           const element = dataList[i];
-  //           this.events.push(element);
-  //           return this.events;
-  //         }
-  //       }
-  //     });
-  //     console.log(this.events);
-  //       });
-  // }
 }
