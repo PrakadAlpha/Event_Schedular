@@ -3,13 +3,16 @@
   <button class="nav_btn" (click)="prevMonth()">
     <i class="fa fas fa-angle-left fa-1x"></i>
   </button>
-  <span class="month"
-    >{{ currentDate | date: "MMMM" }}, {{ secondDate | date: "MMMM" }},
-    {{ thirdDate | date: "MMMM" }}</span
-  >
+  
+  <span class="prevMonth">{{ prevDate | date: "MMMM" }}</span> 
+  <span class="curMonth">{{ currentDate | date: "MMMM" }}</span>
+  <span class="nextMonth">{{ nextDate | date: "MMMM" }}</span>
+
   <button class="nav_btn" (click)="nextMonth()">
     <i class="fa fas fa-angle-right fa-1x"></i>
   </button>
+
+  <!-- <button (click)="print()">Click to Print</button> -->
 </div>
 <!-- <mat-spinner *ngIf="spinner" class="spinner"></mat-spinner>  -->
 <div class="year_nav">
@@ -21,7 +24,7 @@
     <i class="fa fas fa-angle-right fa-1x"></i>
   </button>
 </div>
-<div class="month-grid">
+<div class="month-grid" (scroll)="nextMonth()">
   <div class="day-names">
     <div *ngFor="let name of dayNames" class="day-name p9">
       {{ name }}
@@ -30,13 +33,19 @@
   <div class="weeks">
     <div *ngFor="let week of weeks" class="week">
       <ng-container *ngFor="let day of week">
-        <div
+          <div *ngIf="day.mDate.date() == 1"></div>
+          <div *ngIf="day.mDate.date() == 1"></div>
+          <div *ngIf="day.mDate.date() == 1"></div>
+          <div *ngIf="day.mDate.date() == 1"></div>
+          <div *ngIf="day.mDate.date() == 1"></div>
+          <div *ngIf="day.mDate.date() == 1"></div>
+          <div *ngIf="day.mDate.date() == 1"></div>
+        <div 
           class="week-date enabled"
           (click)="selectDate(day)"
           [ngClass]="{
             today: day.today,
-            selected: day.selected,
-            test: day.mDate.format('YYYY-MM-DD') == '2019-07-24'
+            selected: day.selected
           }"
         >
           <span class="date-text">{{ day.mDate.date() }}</span>
