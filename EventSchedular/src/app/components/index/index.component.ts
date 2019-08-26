@@ -1,12 +1,9 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import { AuthenticationService } from "src/app/services/authentication.service";
-import * as moment from "moment";
 import {
   CdkDragDrop,
   moveItemInArray,
-  transferArrayItem,
-  CdkDragEnter,
-  CdkDragExit
+  transferArrayItem
 } from "@angular/cdk/drag-drop";
 import { CalenderComponent } from "./calender/calender.component";
 
@@ -16,8 +13,8 @@ import { CalenderComponent } from "./calender/calender.component";
   styleUrls: ["./index.component.sass"]
 })
 export class IndexComponent implements OnInit {
-  @ViewChild(CalenderComponent, {static: false})
-  calenderComp: CalenderComponent;
+
+  @ViewChild(CalenderComponent) calenderComp: CalenderComponent;
 
   dragApp = ["PGP", "WEBCASH", "BRIDGER", "EM", "SWIFT", "TRAX"];
 
@@ -31,6 +28,7 @@ export class IndexComponent implements OnInit {
     // document.querySelector('.calender').appendChild(p);
   }
 
+  //Drag and Drop the Application
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer != event.container) {
       transferArrayItem(
@@ -44,5 +42,7 @@ export class IndexComponent implements OnInit {
       moveItemInArray(this.dragApp, event.previousIndex, event.currentIndex);
       this.calenderComp.generateCalender();
     }
+
+    
   }
 }
