@@ -1,16 +1,26 @@
 <div class="dialog"> 
-    <mat-toolbar class="title_bar">
-        <span>Event Date Details</span>
-        <span class="fill"></span>
-    <button
-    class="btn-dialog-close"
-    mat-stroked-button
-    (click)="onClose()"
-    tabIndex="-1">    <mat-icon>close</mat-icon>
-  </button>
-  </mat-toolbar>
+  <mat-toolbar class="title_bar">
+      <span>Event Date Details</span>
+      <span class="fill"></span>
+  <button
+  class="btn-dialog-close"
+  mat-stroked-button
+  (click)="onClose()"
+  tabIndex="-1">    <mat-icon>close</mat-icon>
+</button>
+</mat-toolbar>
 
-<div class="detailBar" >
-
+<div class="detailBar" *ngFor="let event of events">
+  <div class="eventBar">
+  <div class="detail">App Name: {{event.appName}}</div>
+  <div class="detail">Environment: {{event.environment}}</div>
+  <div class="detail">Event Name: {{event.eventName}}</div> 
+  <div class="detail">Type: {{event.eventType}}</div> 
+  <div class="detail">Details: {{event.eventDetails}}</div> 
+  <div class="detail">Start Date: {{event.startDate}}</div>
+  <div class="detail">Start Time: {{event.startTime}}</div>
+  <div class="detail">Level: {{event.level}}</div>
+  </div>
 </div>
+
 </div>
