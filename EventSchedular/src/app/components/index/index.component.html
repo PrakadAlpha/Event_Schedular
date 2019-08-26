@@ -28,7 +28,7 @@
   <div class="calender">
     <app-calender [dropList] = "dropApp"></app-calender>
   </div>
-  <div class="details">
+  <div class="dragger">
     <div class="drag-container"
     cdkDropList
     #dragList = "cdkDropList"
@@ -47,5 +47,9 @@
     >      
       <div cdkDrag *ngFor="let list of dropApp" class="list-item">{{list}}</div>
     </div>
+
+  </div>
+  <div class="details">
+
   </div>
 </div>
