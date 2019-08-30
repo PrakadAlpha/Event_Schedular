@@ -52,7 +52,8 @@
             selected: day.selected
           }"
         >
-          <span class="date-text">{{ day.mDate.date() }}</span>
+          <span class="date-text" *ngIf="day.mDate.date() == 1">{{ day.mDate.format('MMM-D')}}</span>
+          <span class="date-text" *ngIf="day.mDate.date() != 1">{{ day.mDate.date()}}</span>
           <ng-container *ngFor="let event of event">
             <span
               class="badge"
@@ -76,9 +77,11 @@
 </div>
 </div>
 <div class="details">
-    <ng-container *ngFor="let e of event" class="e_details">
+    <div *ngFor="let e of event" class="e_details">
       <span>{{e.eventDetails}}</span>
-    </ng-container>
+      <span>{{e.eventName}}</span>
+      <span>{{e.eventType}}</span>
+    </div>
 </div>
 </div>
 
