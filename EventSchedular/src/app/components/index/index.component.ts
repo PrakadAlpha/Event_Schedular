@@ -14,7 +14,7 @@ import { CalenderComponent } from "./calender/calender.component";
 })
 export class IndexComponent implements OnInit {
 
-  @ViewChild(CalenderComponent) calenderComp: CalenderComponent;
+  @ViewChild(CalenderComponent, {static: false}) calenderComp: CalenderComponent;
 
   dragApp = ["PGP", "WEBCASH", "BRIDGER", "EM", "SWIFT", "TRAX"];
 
@@ -30,6 +30,7 @@ export class IndexComponent implements OnInit {
 
   //Drag and Drop the Application
   drop(event: CdkDragDrop<string[]>) {
+
     if (event.previousContainer != event.container) {
       transferArrayItem(
         event.previousContainer.data,
@@ -43,6 +44,7 @@ export class IndexComponent implements OnInit {
       this.calenderComp.generateCalender();
     }
 
+  
     
   }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { CalenderComponent } from '../calender.component';
 import { EventsService } from 'src/app/services/events.service';
-import { CalendarEvent } from 'src/app/modals/CalendarEvent';
+import { CalendarEvent } from 'src/app/modals/CalenderEvents';
 import { EventI } from 'src/app/modals/EventsI';
 import * as _ from "lodash";
 

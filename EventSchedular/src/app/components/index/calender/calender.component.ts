@@ -118,8 +118,7 @@ export class CalenderComponent implements OnInit {
       this.event = this.events.filter(i => {
         return this.dropList.includes(i.appName);
       }); 
-
-      this.spinner = false;
+      // this.spinner = false;
     };
 
     getData();

@@ -1,4 +1,18 @@
 <br />
+<div class="outline">
+  <div class="outer">
+<!-- <mat-spinner *ngIf="spinner" class="spinner"></mat-spinner>  -->
+<div class="year_nav">
+  <!-- <button class="nav_btn" (click)="prevYear()">
+    <i class="fa fas fa-angle-left fa-1x"></i>
+  </button> -->
+  <span></span>
+  <span class="year">{{ currentDate | date: "y" }}</span>
+  <!-- <button class="nav_btn" (click)="nextYear()">
+    <i class="fa fas fa-angle-right fa-1x"></i>
+  </button> -->
+  <span></span>
+</div>
 <div class="month_nav">
   <button class="nav_btn" (click)="prevMonth()">
     <i class="fa fas fa-angle-left fa-1x"></i>
@@ -13,16 +27,6 @@
   </button>
 
   <!-- <button (click)="print()">Click to Print</button> -->
-</div>
-<!-- <mat-spinner *ngIf="spinner" class="spinner"></mat-spinner>  -->
-<div class="year_nav">
-  <button class="nav_btn" (click)="prevYear()">
-    <i class="fa fas fa-angle-left fa-1x"></i>
-  </button>
-  <span class="year">{{ currentDate | date: "y" }}</span>
-  <button class="nav_btn" (click)="nextYear()">
-    <i class="fa fas fa-angle-right fa-1x"></i>
-  </button>
 </div>
 <div class="month-grid" (scroll)="nextMonth()">
   <div class="day-names">
@@ -66,6 +70,15 @@
           </ng-container>
         </div>
       </ng-container>
+
     </div>
-  </div>
+    </div>
 </div>
+</div>
+<div class="details">
+    <ng-container *ngFor="let e of event" class="e_details">
+      <span>{{e.eventDetails}}</span>
+    </ng-container>
+</div>
+</div>
+

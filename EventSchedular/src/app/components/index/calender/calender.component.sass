@@ -7,19 +7,26 @@ $patchingProd: #177e89
 $businessLive: #e40c2b
 $border: #003300
 
+.outline
+  display: grid
+  grid-template-columns: 2fr 1fr
+
 .month_nav 
   padding: 2px
   display: flex
+  width: 620px
   flex-direction: row
   justify-content: space-between
-  .month
-    transform: rotate(90deg)
+  transform: rotate(90deg)
+  transform-origin: top left
+  margin-left: 20px
 
 .year_nav
   padding: 2px
   display: flex
   flex-direction: row
   justify-content: space-between
+
 
 .nav_btn
   color: #fff
@@ -31,20 +38,24 @@ $border: #003300
   border-radius: 5px
   outline: none
 
+.details
+  grid-row: 1
+  grid-column: 2
+  .e_details
+    
+
 .month, .year
   margin: 10px
 
-.details
-  background: red
-  opacity: 0.3
-  grid-column: 2/3
-  grid-row: 1
+.prevMonth, .curMonth, .nextMonth
+  transform: rotate(180deg)
 
 .month-grid 
   width: 850px
   display: flex
   flex-direction: column
   margin-top: 10px
+  margin-left: 40px
 
 
 .day-names 

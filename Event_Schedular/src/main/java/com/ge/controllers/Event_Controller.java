@@ -100,4 +100,11 @@ public class Event_Controller {
 				.body(new InputStreamResource(bais));
 				
 	}
+	
+	@GetMapping("/events/range/{startDate}/{endDate}")
+	public List<Event> getByRange(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate, @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate){
+		List<Event> events = service.dateRange(startDate, endDate);
+		return events;
+	}
+	
 }
